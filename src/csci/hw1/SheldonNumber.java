@@ -168,7 +168,7 @@ public class SheldonNumber {
 		ArrayList<Integer> sheldonNumber = getSheldonNumber(reversePrimes, primes);
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime);  //divide by 1000000 to get milliseconds.
-		System.out.println("Time to run the program: " + duration/1000000);
+		System.out.println("Time to run the program: " + duration/1000000 + " ms");
 		System.out.println("Sheldon Numbers Are: " + sheldonNumber);
 	}
 
