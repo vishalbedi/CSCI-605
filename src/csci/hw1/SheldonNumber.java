@@ -1,4 +1,19 @@
-/**
+/*
+ * Sheldon (more or less from the clip): "The best number is 73. Why? 73 is the 21st prime number. Its mirror, 37, is the 12th and its mirror, 21, is the product of multiplying 7 and 3... and in binary 73 is a palindrome, 1001001, which backwards is 1001001."
+ *	Definitions:
+ *	- n: is a integer in the range between 2 and 100000 
+ *	- m: is the mirror of n (n=73, m=37) 
+ *	- bN: is the binary representation of n 
+ *	- bM: is the binary representation of m
+ *	Write a program that looks for all numbers m, and n, which meets all of the following properties:
+ *	- n is the k.st prime number (73 is the 21. prime number) 
+ *	- m is mirror of k.st prime number (37 is the 12. prime number) 
+ *	- bN is a palindrome
+ *	You have to name your program Numbers.java. A possible execution:
+ *	% java Numbers
+ *	 ...
+ *	 73
+ *	 ...
  * 
  */
 package csci.hw1;

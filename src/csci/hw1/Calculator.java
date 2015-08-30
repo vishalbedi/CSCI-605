@@ -1,3 +1,28 @@
+/*
+ * Create a simple calculator that can evaluate the basic arithmetic operations: *, /, +, -. 
+ * The normal precedence of the operators is as follows:
+ *		Precedence(+) = 1 
+ *		Precedence(-) = 2 
+ *		Precedence(%) = 3 
+ *		Precedence(*) = 4 
+ *		Precedence(/) = 5
+ *		Using the precedence above, this means: 1 + 2 * 3 = 7. [ 1 + ( 2 * 3) == 1 + 6 == 7 ]
+ *		You are allowed to change one line in your code to modify the precedence to:
+ *		Precedence(/) = 1 
+ *		Precedence(*) = 2 
+ *		Precedence(%) = 3 
+ *		Precedence(+) = 4 
+ *		Precedence(-) = 5
+ *		Using the precedence above, this means: 1 + 2 * 3 = 9. [ ( 1 + 2 ) * 3 == 3 * 3 == 9 ]
+ *		You can hardcode the expression or read the expression from the command line. An example for hardcoding is:
+ *		Vector<String> aLine = new Vector<String>();
+ *		aLine.add("2"); aLine.add("+"); aLine.add("3"); aLine.add("*"); aLine.add(â4â);
+ *		An example for reading the expression from the command line is:
+ *		% java Expression 2 + 2
+ *		4
+ */
+
+
 package csci.hw1;
 
 import java.util.ArrayList;
