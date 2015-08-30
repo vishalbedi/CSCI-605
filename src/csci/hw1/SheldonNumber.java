@@ -23,11 +23,17 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 /**
- * @author Vishal
+ * @author Vishal Bedi
  *
  */
 public class SheldonNumber {
 
+	/**
+	 * @description Checks if a number is a prime given n-1 primes
+	 * @param number
+	 * @param primes
+	 * @return boolean 
+	 */
 	private static boolean isPrime(int number, ArrayList<Integer> primes) {
 		int listSize = primes.size();
 		double limit = Math.floor(Math.sqrt(number));
@@ -50,6 +56,12 @@ public class SheldonNumber {
 	}
 	
 	
+	/**
+	 * @description Prime generator till n
+	 * 
+	 * @param limit
+	 * @return ArrayList<Integer> primeList
+	 */
 	private static ArrayList<Integer> getprimeList(int limit) {
 		ArrayList<Integer> primeList = new ArrayList<Integer>();
 		primeList.add(2);
@@ -63,6 +75,12 @@ public class SheldonNumber {
 		return primeList;
 	}
 	
+	/**
+	 * @description Checks if the given string is a palindrome
+	 * 
+	 * @param wannabePalindrome
+	 * @return boolean isPalindrome
+	 */
 	private static boolean isPalindrome (String wannabePalindrome){
 		String wannabePalindromeReverse = new StringBuffer(wannabePalindrome).reverse().toString();
 		if(wannabePalindrome.equals(wannabePalindromeReverse)){
@@ -70,6 +88,15 @@ public class SheldonNumber {
 		}
 		return false;
 	}
+	
+	
+	
+	/**
+	 * @description returns a list of primes whose binary representation is a palindrome
+	 * 
+	 * @param primes
+	 * @return ArrayList<Integer> primeNumbers
+	 */
 	private static ArrayList<Integer> getPalindromePrimes(ArrayList<Integer> primes){
 		ArrayList<Integer> palindromePrimes = new ArrayList<Integer>();
 		for(int prime : primes){
@@ -80,6 +107,15 @@ public class SheldonNumber {
 		}
 		return palindromePrimes;
 	}
+	
+	/**
+	 * @description Checks if the reverse of the prime is also a prime. If true adds to a HashMap with prime as key and reverse of the prime as value.
+	 * 
+	 * 
+	 * @param ArrayList<Integer> palindromePrimes - List of primes to check if reverse is also a prime.
+	 * @param ArrayList<Integer> primes - All the primes till n
+	 * @return ArrayList<Integer> HashMap<Integer, Integer> reversePrimes
+	 */
 	private static HashMap<Integer, Integer> getReversePrime(ArrayList<Integer> palindromePrimes, ArrayList<Integer> primes){
 		HashMap<Integer, Integer> reversePrimes = new HashMap<Integer,Integer>();
 		for(int prime : palindromePrimes){
@@ -91,6 +127,16 @@ public class SheldonNumber {
 		return reversePrimes;
 	}
 	
+	
+	/**
+	 * @description Compares the index of all the prime number who are palindrome and whose reverse is also a prime.
+	 * It checks if the index of the prime and the reverse of the prime are also reverse of each other.
+	 * e.g. 73 is the 21st prime number. Its mirror, 37, is the 12th and its mirror, 21.
+	 * 
+	 * @param HashMap<Integer, Integer> reversePrimePalindromes 
+	 * @param ArrayList<Integer> primes 
+	 * @return ArrayList<Integer> SheldonNumbers
+	 */
 	private static ArrayList<Integer> getSheldonNumber (HashMap<Integer, Integer> reversePrimePalindromes, ArrayList<Integer> primes){
 		ArrayList<Integer> sheldonNumber = new ArrayList<Integer>();
 		for (Entry<Integer, Integer> reversePrimePalindrome : reversePrimePalindromes.entrySet()){
@@ -107,7 +153,9 @@ public class SheldonNumber {
 		return sheldonNumber;	
 	}
 	/**
+	 * @description main function. Executes all the static functions to find Sheldon Numbers
 	 * @param args
+	 * @return null
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
