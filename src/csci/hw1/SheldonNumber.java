@@ -19,6 +19,8 @@
 package csci.hw1;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 /**
  * @author Vishal
@@ -46,7 +48,9 @@ public class SheldonNumber {
 			return true;
 		}
 	}
-	private static ArrayList<Integer> primeList(int limit) {
+	
+	
+	private static ArrayList<Integer> getprimeList(int limit) {
 		ArrayList<Integer> primeList = new ArrayList<Integer>();
 		primeList.add(2);
 		primeList.add(3);
@@ -59,14 +63,61 @@ public class SheldonNumber {
 		return primeList;
 	}
 	
+	private static boolean isPalindrome (String wannabePalindrome){
+		String wannabePalindromeReverse = new StringBuffer(wannabePalindrome).reverse().toString();
+		if(wannabePalindrome.equals(wannabePalindromeReverse)){
+			return true;
+		}
+		return false;
+	}
+	private static ArrayList<Integer> getPalindromePrimes(ArrayList<Integer> primes){
+		ArrayList<Integer> palindromePrimes = new ArrayList<Integer>();
+		for(int prime : primes){
+			String binaryPrime = Integer.toBinaryString(prime);
+			if(isPalindrome(binaryPrime)){
+				palindromePrimes.add(prime);
+			}
+		}
+		return palindromePrimes;
+	}
+	private static HashMap<Integer, Integer> getReversePrime(ArrayList<Integer> palindromePrimes, ArrayList<Integer> primes){
+		HashMap<Integer, Integer> reversePrimes = new HashMap<Integer,Integer>();
+		for(int prime : palindromePrimes){
+			int reverseOfPrime = Integer.parseInt(new StringBuffer(""+prime).reverse().toString());
+			if(primes.contains(reverseOfPrime)){
+				reversePrimes.put(prime, reverseOfPrime);
+			}
+		}
+		return reversePrimes;
+	}
 	
+	private static ArrayList<Integer> getSheldonNumber (HashMap<Integer, Integer> reversePrimePalindromes, ArrayList<Integer> primes){
+		ArrayList<Integer> sheldonNumber = new ArrayList<Integer>();
+		for (Entry<Integer, Integer> reversePrimePalindrome : reversePrimePalindromes.entrySet()){
+			int prime = reversePrimePalindrome.getKey();
+			int reverseOfPrime = reversePrimePalindrome.getValue();
+			int primeIndex = primes.indexOf(prime) + 1;
+			int reverseOfPrimeIndex = primes.indexOf(reverseOfPrime) + 1;
+			int reversePrimeReverseIndex = Integer.parseInt(new StringBuffer(""+reverseOfPrimeIndex).reverse().toString());
+			if(primeIndex == reversePrimeReverseIndex){
+				sheldonNumber.add(prime);
+			}
+			
+		}
+		return sheldonNumber;	
+	}
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		int primeLimit = 100000;
-		System.out.println(primeList(primeLimit));
+		ArrayList<Integer> primes = getprimeList(primeLimit);
+		System.out.println("pi(100000)" + primes.size()); //Number of primes <100000 = 9592 :: this looks correct
+		ArrayList<Integer> palindromePrimes = getPalindromePrimes(primes);
+		HashMap<Integer, Integer> reversePrimes = getReversePrime(palindromePrimes, primes);
+		ArrayList<Integer> sheldonNumber = getSheldonNumber(reversePrimes, primes);
+		System.out.println("Sheldon Numbers Are: " + sheldonNumber);
 	}
 
 }
