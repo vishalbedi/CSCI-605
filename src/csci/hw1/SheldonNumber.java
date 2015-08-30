@@ -160,11 +160,15 @@ public class SheldonNumber {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		int primeLimit = 100000;
+		long startTime = System.nanoTime();
 		ArrayList<Integer> primes = getprimeList(primeLimit);
 		System.out.println("pi(100000)" + primes.size()); //Number of primes <100000 = 9592 :: this looks correct
 		ArrayList<Integer> palindromePrimes = getPalindromePrimes(primes);
 		HashMap<Integer, Integer> reversePrimes = getReversePrime(palindromePrimes, primes);
 		ArrayList<Integer> sheldonNumber = getSheldonNumber(reversePrimes, primes);
+		long endTime = System.nanoTime();
+		long duration = (endTime - startTime);  //divide by 1000000 to get milliseconds.
+		System.out.println("Time to run the program: " + duration/1000000);
 		System.out.println("Sheldon Numbers Are: " + sheldonNumber);
 	}
 
