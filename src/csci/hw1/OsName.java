@@ -29,12 +29,20 @@
 
 
 
+
+/*
+ * 
+ * OsName.java
+ * 
+ * Version: 1.0
+ * 
+ */
 package csci.hw1;
 
 /**
- * Classical Hello World
+ * Fetches and displays OS Name
  * 
- * @author Vishal
+ * @author Vishal Bedi(vgb8777@rit.edu)
  *
  */
 public class OsName {

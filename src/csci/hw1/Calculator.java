@@ -23,6 +23,16 @@
  */
 
 
+
+
+/*
+ * 
+ * Calculator.java
+ * 
+ * Version: 1.0
+ * 
+ */
+
 package csci.hw1;
 
 import java.util.ArrayList;
@@ -37,6 +47,7 @@ import java.util.Stack;
  *  It is assumed that the input is error free.
  * 
  * @author Vishal Bedi
+ * @author Daichi Mae
  * 
  */
 public class Calculator {

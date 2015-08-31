@@ -16,6 +16,15 @@
  *	 ...
  * 
  */
+
+
+/*
+ * 
+ * Numbers.java
+ * 
+ * Version: 1.0
+ * 
+ */
 package csci.hw1;
 
 import java.util.ArrayList;
@@ -23,8 +32,10 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 /**
+ * @description Program to calculate Sheldon Numbers
+ * 
+ * @author Daichi Mae
  * @author Vishal Bedi
- *
  */
 public class Numbers {
 
