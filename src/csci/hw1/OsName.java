@@ -37,7 +37,7 @@ package csci.hw1;
  * @author Vishal
  *
  */
-public class OSName {
+public class OsName {
 	/**
 	 * @description : Fetches OS name and prints
 	 * 

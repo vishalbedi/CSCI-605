@@ -26,7 +26,7 @@ import java.util.Map.Entry;
  * @author Vishal Bedi
  *
  */
-public class SheldonNumber {
+public class Numbers {
 
 	/**
 	 * @description Checks if a number is a prime given n-1 primes
