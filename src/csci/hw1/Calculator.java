@@ -16,7 +16,7 @@
  *		Using the precedence above, this means: 1 + 2 * 3 = 9. [ ( 1 + 2 ) * 3 == 3 * 3 == 9 ]
  *		You can hardcode the expression or read the expression from the command line. An example for hardcoding is:
  *		Vector<String> aLine = new Vector<String>();
- *		aLine.add("2"); aLine.add("+"); aLine.add("3"); aLine.add("*"); aLine.add(â4â);
+ *		aLine.add("2"); aLine.add("+"); aLine.add("3"); aLine.add("*"); aLine.add("4");
  *		An example for reading the expression from the command line is:
  *		% java Expression 2 + 2
  *		4

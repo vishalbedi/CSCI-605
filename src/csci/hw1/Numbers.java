@@ -73,12 +73,11 @@ public class Numbers {
 	 * @param limit
 	 * @return ArrayList<Integer> primeList
 	 */
-	private static ArrayList<Integer> getprimeList(int limit) {
+	public static ArrayList<Integer> getprimeList(int limit) {
 		ArrayList<Integer> primeList = new ArrayList<Integer>();
 		primeList.add(2);
-		primeList.add(3);
 
-		for(int i=4, j=2; i <= limit; i=2*j+1, j++){
+		for(int i=3, j=2; i <= limit; i=2*j+1, j++){
 			if(isPrime(i, primeList)){
 				primeList.add(i);
 			}
