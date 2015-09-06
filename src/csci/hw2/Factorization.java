@@ -4,7 +4,6 @@
 //% java Factorization 12
 //12 = 2 * 2 * 3
 
-
 /**
  * 
  * Factorization.java
@@ -14,11 +13,11 @@
  */
 package csci.hw2;
 
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import csci.hw1.Numbers;
+
 /**
  * @description Gets all the factors of a number
  * 
@@ -26,54 +25,56 @@ import csci.hw1.Numbers;
  * @author Daichi Mae
  */
 public class Factorization {
-	
+
 	/**
 	 * @description Returns Prime factors of an integer n
 	 * 
 	 * @param integer
 	 * @return ArrayList<Integer> primeFactors
 	 */
-	public static ArrayList<Integer> getPrimeFactors(int number){
-		int halfNumber = number % 2 == 0 ? number/2 : (number+ 1)/2;
+	public static ArrayList<Integer> getPrimeFactors(int number) {
+		int halfNumber = number % 2 == 0 ? number / 2 : (number + 1) / 2;
 		ArrayList<Integer> primes = Numbers.getprimeList(halfNumber);
 		ArrayList<Integer> primeFactors = new ArrayList<Integer>();
-		for (int prime : primes){
-			if(number % prime == 0){
+		for (int prime : primes) {
+			if (number % prime == 0) {
 				primeFactors.add(prime);
 			}
 		}
 		return primeFactors;
 	}
-	
+
 	/**
 	 * @description Returns all the factors of an integer n
 	 * 
 	 * @param integer
 	 * @return ArrayList<Integer> factors
 	 */
-	public static ArrayList<Integer> getFactors(int number){
+	public static ArrayList<Integer> getFactors(int number) {
 		ArrayList<Integer> factors = getPrimeFactors(number);
 		int multiple = getMultiple(factors);
-		while(multiple != number){
-			factors.addAll(getFactors(number/multiple));
+		while (multiple != number) {
+			factors.addAll(getFactors(number / multiple));
 			multiple = getMultiple(factors);
 		}
 		return factors;
 	}
-	
+
 	/**
 	 * @description Multiplies all the number in an arrayList
 	 * 
-	 * @param ArrayList<Integer> numbers 
+	 * @param ArrayList<Integer>
+	 *            numbers
 	 * @return multiple
 	 */
-	public static int getMultiple (ArrayList<Integer> primeFactors){
+	public static int getMultiple(ArrayList<Integer> primeFactors) {
 		int multiple = 1;
-		for (int primeFactor : primeFactors){
+		for (int primeFactor : primeFactors) {
 			multiple *= primeFactor;
 		}
 		return multiple;
 	}
+
 	/**
 	 * @description read the number from CLI and prints out its factors
 	 * 
@@ -83,9 +84,9 @@ public class Factorization {
 		// TODO Auto-generated method stub
 		System.out.println("Enter a number to factorize");
 		int number;
-		try(Scanner sc = new Scanner(System.in)){
+		try (Scanner sc = new Scanner(System.in)) {
 			number = sc.nextInt();
-		}		
+		}
 		ArrayList<Integer> factors = getFactors(number);
 		System.out.println(factors);
 	}
