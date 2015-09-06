@@ -25,6 +25,12 @@ import csci.hw1.Numbers;
  */
 public class Factorization {
 	
+	/**
+	 * @description Returns Prime factors of an integer n
+	 * 
+	 * @param integer
+	 * @return ArrayList<Integer> primeFactors
+	 */
 	public static ArrayList<Integer> getPrimeFactors(int number){
 		int sqrtNumber = (int)(Math.sqrt(number) + 1);
 		ArrayList<Integer> primes = Numbers.getprimeList(sqrtNumber);
@@ -37,16 +43,20 @@ public class Factorization {
 		return primeFactors;
 	}
 	
+	/**
+	 * @description Returns all the factors of an integer n
+	 * 
+	 * @param integer
+	 * @return ArrayList<Integer> factors
+	 */
 	public static ArrayList<Integer> getFactors(int number){
-		ArrayList<Integer> primeFactors = getPrimeFactors(number);
-		int multiple = getMultiple(primeFactors);
+		ArrayList<Integer> factors = getPrimeFactors(number);
+		int multiple = getMultiple(factors);
 		while(multiple != number){
-			number = number/multiple;
-			ArrayList<Integer> factors = getFactors(number);
-			primeFactors.addAll(factors);
+			factors.addAll(getFactors(number/multiple));
 			multiple = getMultiple(factors);
 		}
-		return primeFactors;
+		return factors;
 	}
 	
 	public static int getMultiple (ArrayList<Integer> primeFactors){
