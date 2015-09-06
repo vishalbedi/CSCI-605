@@ -82,8 +82,10 @@ public class Factorization {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.out.println("Enter a number to factorize");
-		Scanner sc = new Scanner(System.in);
-		int number = sc.nextInt();
+		int number;
+		try(Scanner sc = new Scanner(System.in)){
+			number = sc.nextInt();
+		}		
 		ArrayList<Integer> factors = getFactors(number);
 		System.out.println(factors);
 	}
