@@ -20,6 +20,8 @@ import java.util.Scanner;
 
 import csci.hw1.Numbers;
 /**
+ * @description Gets all the factors of a number
+ * 
  * @author Vishal
  * @author Daichi Mae
  */
@@ -32,8 +34,8 @@ public class Factorization {
 	 * @return ArrayList<Integer> primeFactors
 	 */
 	public static ArrayList<Integer> getPrimeFactors(int number){
-		int sqrtNumber = (int)(Math.sqrt(number) + 1);
-		ArrayList<Integer> primes = Numbers.getprimeList(sqrtNumber);
+		int halfNumber = number % 2 == 0 ? number/2 : (number+ 1)/2;
+		ArrayList<Integer> primes = Numbers.getprimeList(halfNumber);
 		ArrayList<Integer> primeFactors = new ArrayList<Integer>();
 		for (int prime : primes){
 			if(number % prime == 0){
@@ -59,6 +61,12 @@ public class Factorization {
 		return factors;
 	}
 	
+	/**
+	 * @description Multiplies all the number in an arrayList
+	 * 
+	 * @param ArrayList<Integer> numbers 
+	 * @return multiple
+	 */
 	public static int getMultiple (ArrayList<Integer> primeFactors){
 		int multiple = 1;
 		for (int primeFactor : primeFactors){
@@ -67,6 +75,8 @@ public class Factorization {
 		return multiple;
 	}
 	/**
+	 * @description read the number from CLI and prints out its factors
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
