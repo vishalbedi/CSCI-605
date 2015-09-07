@@ -106,6 +106,8 @@ public class Calculator {
 						operatorStack.pop();
 						if(operatorInStack != '(' && operatorInStack != ')')
 							postFixExpression.add("" + operatorInStack);
+						if(operatorStack.isEmpty())
+							break;
 						operatorInStack = operatorStack.peek();
 					}
 					operatorStack.push(operatorToPush);
