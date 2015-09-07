@@ -45,8 +45,6 @@ public class Calculator {
 		OPERATOR_PRECEDENCE.add('*');
 		OPERATOR_PRECEDENCE.add('/');
 		OPERATOR_PRECEDENCE.add('^');
-		OPERATOR_PRECEDENCE.add(')');
-		OPERATOR_PRECEDENCE.add('(');
 	}
 
 	/**
@@ -94,9 +92,19 @@ public class Calculator {
 	private static ArrayList<String> toPostFix(ArrayList<String> expression) {
 		Stack<Character> operatorStack = new Stack<Character>();
 		ArrayList<String> postFixExpression = new ArrayList<String>();
+		int bracesCount = 0;
 		for (String s : expression) {
 			if (s.matches(OPERATOR_REGEX)) {
-				if (operatorStack.empty())
+				if(s.charAt(0) == '('){
+					bracesCount++;
+					continue;
+				}
+				if(s.charAt(0)== ')'){
+					bracesCount--;
+					postFixExpression.add("" + operatorStack.pop());
+					continue;
+				}
+				if (operatorStack.empty() || bracesCount > 0)
 					operatorStack.push(s.charAt(0));
 				else {
 					char operatorInStack = operatorStack.peek();
@@ -104,8 +112,7 @@ public class Calculator {
 					while (OPERATOR_PRECEDENCE.indexOf(new Character(operatorInStack)) >= OPERATOR_PRECEDENCE
 							.indexOf(new Character(operatorToPush))) {
 						operatorStack.pop();
-						if(operatorInStack != '(' && operatorInStack != ')')
-							postFixExpression.add("" + operatorInStack);
+						postFixExpression.add("" + operatorInStack);
 						if(operatorStack.isEmpty())
 							break;
 						operatorInStack = operatorStack.peek();
@@ -206,6 +213,6 @@ public class Calculator {
  * Please enter a space break followed by every numeral or operand.. 
  * Enter # once you are finished with the expression
  * 1 + 3 * 4 - 6 * 1 + 4 - 3 % 2 # 
- * [1, 3, 4, *, 6, 1, *, -, 4, 3, 2, %, -, +, +]
- * 10.0
+ * [1, 3, 4, *, 6, 1, *, -, +, 4, 3, 2, %, -, +]
+	Result: 10.0
  */
