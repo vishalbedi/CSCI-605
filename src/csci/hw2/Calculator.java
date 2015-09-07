@@ -172,7 +172,8 @@ public class Calculator {
 				case '^' : {
 					value2 = calc.pop();
 					value1 = calc.pop();
-					result = Math.pow(value2, value1);
+					result = Math.pow(value1, value2);
+					calc.push(result);
 				}
 				}
 			} else {
