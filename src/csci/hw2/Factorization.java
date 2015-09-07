@@ -43,7 +43,7 @@ public class Factorization {
 		}
 		return primeFactors;
 	}
-
+	
 	/**
 	 * @description Returns all the factors of an integer n
 	 * 

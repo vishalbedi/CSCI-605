@@ -1,39 +1,13 @@
-/*
- * Create a simple calculator that can evaluate the basic arithmetic operations: *, /, +, -. 
- * The normal precedence of the operators is as follows:
- *		Precedence(+) = 1 
- *		Precedence(-) = 2 
- *		Precedence(%) = 3 
- *		Precedence(*) = 4 
- *		Precedence(/) = 5
- *		Using the precedence above, this means: 1 + 2 * 3 = 7. [ 1 + ( 2 * 3) == 1 + 6 == 7 ]
- *		You are allowed to change one line in your code to modify the precedence to:
- *		Precedence(/) = 1 
- *		Precedence(*) = 2 
- *		Precedence(%) = 3 
- *		Precedence(+) = 4 
- *		Precedence(-) = 5
- *		Using the precedence above, this means: 1 + 2 * 3 = 9. [ ( 1 + 2 ) * 3 == 3 * 3 == 9 ]
- *		You can hardcode the expression or read the expression from the command line. An example for hardcoding is:
- *		Vector<String> aLine = new Vector<String>();
- *		aLine.add("2"); aLine.add("+"); aLine.add("3"); aLine.add("*"); aLine.add("4");
- *		An example for reading the expression from the command line is:
- *		% java Expression 2 + 2
- *		4
- */
-
-
-
 
 /*
  * 
  * Calculator.java
  * 
- * Version: 1.0
+ * Version: 2.0
  * 
  */
 
-package csci.hw1;
+package csci.hw2;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -53,8 +27,8 @@ import java.util.Stack;
 public class Calculator {
 	private static ArrayList<Character> OPERATOR_PRECEDENCE = new ArrayList<Character>();
 	private static String TERMINATING_CHAR = "#";
-	private static String OPERATOR_REGEX = "[+*%/-]";
-	private static String CHECK_EXPRESSION = "[^0-9+*% ./-]";
+	private static String OPERATOR_REGEX = "[+*%^()/-]";
+	private static String CHECK_EXPRESSION = "[^0-9+*^()% ./-]";
 	private static String expression = null;
 	private static Scanner sc;
 
@@ -70,6 +44,9 @@ public class Calculator {
 		OPERATOR_PRECEDENCE.add('%');
 		OPERATOR_PRECEDENCE.add('*');
 		OPERATOR_PRECEDENCE.add('/');
+		OPERATOR_PRECEDENCE.add('^');
+		OPERATOR_PRECEDENCE.add(')');
+		OPERATOR_PRECEDENCE.add('(');
 	}
 
 	/**
@@ -127,7 +104,8 @@ public class Calculator {
 					while (OPERATOR_PRECEDENCE.indexOf(new Character(operatorInStack)) >= OPERATOR_PRECEDENCE
 							.indexOf(new Character(operatorToPush))) {
 						operatorStack.pop();
-						postFixExpression.add("" + operatorInStack);
+						if(operatorInStack != '(' && operatorInStack != ')')
+							postFixExpression.add("" + operatorInStack);
 						operatorInStack = operatorStack.peek();
 					}
 					operatorStack.push(operatorToPush);
@@ -190,6 +168,11 @@ public class Calculator {
 					result = value1 % value2;
 					calc.push(result);
 					break;
+				}
+				case '^' : {
+					value2 = calc.pop();
+					value1 = calc.pop();
+					result = Math.pow(value2, value1);
 				}
 				}
 			} else {
