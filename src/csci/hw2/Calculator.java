@@ -58,7 +58,11 @@ public class Calculator {
 		System.out.println("Enter # once you are finished with the expression");
 		sc = new Scanner(System.in);
 		expression = sc.nextLine();
-		if(expression.matches(CHECK_EXPRESSION)){
+		expression = expression.trim();
+		int expressionLen = expression.length();
+		int noSpaceExpression = expression.replaceAll("\\s+","").length();
+		if(expression.matches(CHECK_EXPRESSION) || 
+				(2 * noSpaceExpression - 1) != expressionLen){
 			return false;
 		}
 		return true;
@@ -93,6 +97,7 @@ public class Calculator {
 		Stack<Character> operatorStack = new Stack<Character>();
 		ArrayList<String> postFixExpression = new ArrayList<String>();
 		int bracesCount = 0;
+		int operatorCount = 0;
 		for (String s : expression) {
 			if (s.matches(OPERATOR_REGEX)) {
 				if(s.charAt(0) == '('){
@@ -101,16 +106,38 @@ public class Calculator {
 				}
 				if(s.charAt(0)== ')'){
 					bracesCount--;
-					postFixExpression.add("" + operatorStack.pop());
+					while(operatorCount > 0){
+						if(operatorStack.empty()) break;
+						postFixExpression.add("" + operatorStack.pop());
+						operatorCount--;
+					}
 					continue;
 				}
-				if (operatorStack.empty() || bracesCount > 0)
+				if (operatorStack.empty() || bracesCount > 0){
+					if(bracesCount > 0) {
+						if(operatorCount > 0){
+							int copyOfOperatorCount = operatorCount;
+							while(copyOfOperatorCount > 0){
+								char operatorInStack = operatorStack.peek();
+								char operatorToPush = s.charAt(0);
+								if(checkPrecedence(operatorInStack, operatorToPush)){
+									operatorStack.pop();
+									postFixExpression.add("" + operatorInStack);
+									if(operatorStack.isEmpty())
+										break;
+									operatorInStack = operatorStack.peek();
+								}
+								copyOfOperatorCount--;
+							}
+						}
+						operatorCount++;
+					}
 					operatorStack.push(s.charAt(0));
+					}
 				else {
 					char operatorInStack = operatorStack.peek();
 					char operatorToPush = s.charAt(0);
-					while (OPERATOR_PRECEDENCE.indexOf(new Character(operatorInStack)) >= OPERATOR_PRECEDENCE
-							.indexOf(new Character(operatorToPush))) {
+					while (checkPrecedence(operatorInStack, operatorToPush)) {
 						operatorStack.pop();
 						postFixExpression.add("" + operatorInStack);
 						if(operatorStack.isEmpty())
@@ -128,7 +155,19 @@ public class Calculator {
 		}
 		return postFixExpression;
 	}
-
+	
+	/**
+	 * @description : Compares the precedence of the operators 
+	 * 
+	 * @param char operator1
+	 * @param char operator2
+	 * @return boolean
+	 */
+	private static boolean checkPrecedence(char operator1,  char operator2){
+		return OPERATOR_PRECEDENCE.indexOf(new Character(operator1)) >= OPERATOR_PRECEDENCE
+				.indexOf(new Character(operator2));
+	}
+	
 	/**
 	 * @description : Calculates the postfix expression
 	 * 
