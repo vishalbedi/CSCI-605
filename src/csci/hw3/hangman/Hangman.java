@@ -154,12 +154,10 @@ public class Hangman {
 					p.updateScore(computeDifficulty());
 					break;
 				}
-				if (p.getAttempts() == GUESS_LIMIT) {
-					System.out.println("You loose..");
-					System.out.println("The word is : " + currentWord);
-					p.resetAttempts();
-				}
 			}
+			System.out.println("You loose..");
+			System.out.println("The word is : " + currentWord);
+			p.resetAttempts();
 		}
 	}
 
