@@ -17,10 +17,11 @@ public class Hangman {
 	private boolean continueGame = true;
 	Scanner sc = new Scanner(System.in);
 
-	private void reset () {
+	private void reset() {
 		players.clear();
 		currentGuess = new char[0];
 	}
+
 	private void populateWordsDb(String wordFileName) {
 		File wordFile = new File(wordFileName);
 		try (Scanner sc = new Scanner(wordFile)) {
@@ -94,35 +95,30 @@ public class Hangman {
 	private void userFile() {
 		System.out.println("Do you have a text file for hangman?(y/n)");
 		char userInput;
-		try {
-			userInput = sc.next().charAt(0);
-			if (userInput == 'y') {
-				System.out.println("Enter File name...");
-				String fileName = sc.next();
-				populateWordsDb(fileName);
-			} else if (userInput == 'n') {
-				if(gameSet == 0)
-					populateWordsDb(DEFAULT_FILE);
-			} else {
-				System.out.flush();
-				System.out.println("Sorry I could't get that..");
-				userFile();
-			}
-		} finally {
+		userInput = sc.next().charAt(0);
+		if (userInput == 'y') {
+			System.out.println("Enter File name...");
+			String fileName = sc.next();
+			populateWordsDb(fileName);
+		} else if (userInput == 'n') {
+			if (gameSet == 0)
+				populateWordsDb(DEFAULT_FILE);
+		} else {
+			System.out.flush();
+			System.out.println("Sorry I could't get that..");
+			userFile();
 		}
+
 	}
 
 	private void setUpPlayers() {
 		System.out.println("How many Player ?");
-		try  {
-			int playerCount = sc.nextInt();
-			System.out.println("Enter Player Names...");
-			for (int i = 0; i < playerCount; i++) {
-				System.out.print("Player " + (i + 1) + " : ");
-				addPlayer(sc.next());
-				System.out.println("");
-			}
-		} finally {
+		int playerCount = sc.nextInt();
+		System.out.println("Enter Player Names...");
+		for (int i = 0; i < playerCount; i++) {
+			System.out.print("Player " + (i + 1) + " : ");
+			addPlayer(sc.next());
+			System.out.println("");
 		}
 	}
 
@@ -144,39 +140,37 @@ public class Hangman {
 	}
 
 	private void play() {
-		try {
-			for (Player p : players) {
-				while (p.getAttempts() < GUESS_LIMIT) {
-					System.out.println(p.getName() + " You have " + (GUESS_LIMIT - p.getAttempts() + " left."));
-					System.out.println("Enter a character or word");
-					String input = sc.next();
-					updateCurrentGuess(input);
-					p.incrementAttempts();
-					if (currentGuess.length > 0) {
-						printCurrentGuess(currentGuess);
-					}
-					if (iWon()) {
-						p.updateScore(computeDifficulty());
-						break;
-					}
-					if(p.getAttempts() == GUESS_LIMIT){
-						System.out.println("You loose..");
-						System.out.println("The word is : "+ currentWord);
-					}
+		for (Player p : players) {
+			while (p.getAttempts() < GUESS_LIMIT) {
+				System.out.println(p.getName() + " You have " + (GUESS_LIMIT - p.getAttempts() + " left."));
+				System.out.println("Enter a character or word");
+				String input = sc.next();
+				updateCurrentGuess(input);
+				p.incrementAttempts();
+				if (currentGuess.length > 0) {
+					printCurrentGuess(currentGuess);
+				}
+				if (iWon()) {
+					p.updateScore(computeDifficulty());
+					break;
+				}
+				if (p.getAttempts() == GUESS_LIMIT) {
+					System.out.println("You loose..");
+					System.out.println("The word is : " + currentWord);
 				}
 			}
-		} finally {
 		}
+
 	}
-	
-	private void showScores(){
+
+	private void showScores() {
 		System.out.println("Your scores are...");
-		for (Player p : players){
+		for (Player p : players) {
 			System.out.println(p.getName() + " : " + p.getScore());
 		}
 	}
-	
-	private void gameSet(){
+
+	private void gameSet() {
 		userFile();
 		init();
 		play();
@@ -184,24 +178,22 @@ public class Hangman {
 		reset();
 		gameSet++;
 	}
-	
-	public void game(){
-		while(continueGame){
-			if(gameSet == 0){
+
+	public void game() {
+		while (continueGame) {
+			if (gameSet == 0) {
 				intro();
 				gameSet();
-			} else{
+			} else {
 				System.out.println("Do you want to continue");
-				try(Scanner sc = new Scanner(System.in)){
-					char input = sc.next().charAt(0);
-					if(input == 'y'){
-						gameSet();
-					}
-					if(input == 'n'){
-						continueGame = false;
-					}
+				char input = sc.next().charAt(0);
+				if (input == 'y') {
+					gameSet();
 				}
-			}	
+				if (input == 'n') {
+					continueGame = false;
+				}
+			}
 		}
 	}
 }
