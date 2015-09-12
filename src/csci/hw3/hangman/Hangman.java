@@ -157,10 +157,10 @@ public class Hangman {
 				if (p.getAttempts() == GUESS_LIMIT) {
 					System.out.println("You loose..");
 					System.out.println("The word is : " + currentWord);
+					p.resetAttempts();
 				}
 			}
 		}
-
 	}
 
 	private void showScores() {
@@ -175,7 +175,6 @@ public class Hangman {
 		init();
 		play();
 		showScores();
-		reset();
 		gameSet++;
 	}
 
@@ -188,7 +187,7 @@ public class Hangman {
 				System.out.println("Do you want to continue");
 				char input = sc.next().charAt(0);
 				if (input == 'y') {
-					gameSet();
+					play();
 				}
 				if (input == 'n') {
 					continueGame = false;

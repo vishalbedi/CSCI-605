@@ -16,10 +16,13 @@ public class Player {
 		return attempts;
 	}
 	/**
-	 * @param attempts the attempts to set
+	 * @param 
 	 */
 	public void incrementAttempts() {
 		this.attempts++;
+	}
+	public void resetAttempts(){
+		this.attempts = 0;
 	}
 	/**
 	 * @return the name
@@ -34,7 +37,7 @@ public class Player {
 		return score;
 	}	
 	public void updateScore (int difficulty){
-		score = ( difficulty/attempts ) * SCORE_MULTIPLER;
+		score += ( difficulty/attempts ) * SCORE_MULTIPLER;
 	}
 	
 }
