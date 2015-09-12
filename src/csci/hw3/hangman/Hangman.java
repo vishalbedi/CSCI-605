@@ -10,10 +10,10 @@ public class Hangman {
 	ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<String> wordsDb = new ArrayList<String>();
 	private String currentWord;
-	private char[] currentGuess = new char[0];
+	private char[] currentGuess;
 	private final String DEFAULT_FILE = "C:\\Users\\Vishal\\Workplace\\CSCI-605\\src\\csci\\hw3\\words.txt";
 	private final int GUESS_LIMIT = 6;
-	private int gameSet = 0;
+	private int gameCount = 0;
 	private boolean continueGame = true;
 	Scanner sc = new Scanner(System.in);
 
@@ -50,7 +50,7 @@ public class Hangman {
 	private String getRandomWord() {
 		int wordCount = wordsDb.size();
 		Random generator = new Random();
-		int randomIndex = generator.nextInt(wordCount) + 1;
+		int randomIndex = generator.nextInt(wordCount);
 		return wordsDb.remove(randomIndex);
 	}
 
@@ -101,7 +101,6 @@ public class Hangman {
 			String fileName = sc.next();
 			populateWordsDb(fileName);
 		} else if (userInput == 'n') {
-			if (gameSet == 0)
 				populateWordsDb(DEFAULT_FILE);
 		} else {
 			System.out.flush();
@@ -123,7 +122,7 @@ public class Hangman {
 	}
 
 	private boolean iWon() {
-		String current = currentGuess.toString().replace(',', '\0');
+		String current = new String (currentGuess);
 		return currentWord.equals(current);
 	}
 
@@ -132,7 +131,7 @@ public class Hangman {
 	}
 
 	private void init() {
-		setUpPlayers();
+		currentGuess = new char[0];
 		currentWord = getRandomWord();
 		System.out.flush();
 		System.out.println("Starting Hangman for " + players.size() + " players.");
@@ -151,12 +150,17 @@ public class Hangman {
 					printCurrentGuess(currentGuess);
 				}
 				if (iWon()) {
+					System.out.println("Awesome.. you guessed it right.. ");
+					System.out.println("The word is : " + currentWord);
 					p.updateScore(computeDifficulty());
+					System.out.println("Your score is "+ p.getScore());
 					break;
 				}
+				if(p.getAttempts() == GUESS_LIMIT){
+					System.out.println("You loose..");
+					System.out.println("The word is : " + currentWord);
+				}
 			}
-			System.out.println("You loose..");
-			System.out.println("The word is : " + currentWord);
 			p.resetAttempts();
 		}
 	}
@@ -169,27 +173,28 @@ public class Hangman {
 	}
 
 	private void gameSet() {
-		userFile();
+		if (gameCount == 0) {
+			userFile();
+			setUpPlayers();
+		}
 		init();
 		play();
 		showScores();
-		gameSet++;
+		gameCount++;
 	}
 
 	public void game() {
+		intro();
+		gameSet();
 		while (continueGame) {
-			if (gameSet == 0) {
-				intro();
+			System.out.println("Do you want to continue");
+			char input = sc.next().charAt(0);
+			if (input == 'y') {
 				gameSet();
-			} else {
-				System.out.println("Do you want to continue");
-				char input = sc.next().charAt(0);
-				if (input == 'y') {
-					play();
-				}
-				if (input == 'n') {
-					continueGame = false;
-				}
+			}
+			if (input == 'n') {
+				System.out.println("Good bye....");
+				continueGame = false;
 			}
 		}
 	}
