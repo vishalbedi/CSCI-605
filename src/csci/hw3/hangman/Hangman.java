@@ -17,10 +17,6 @@ public class Hangman {
 	private boolean continueGame = true;
 	Scanner sc = new Scanner(System.in);
 
-	private void reset() {
-		players.clear();
-		currentGuess = new char[0];
-	}
 
 	private void populateWordsDb(String wordFileName) {
 		File wordFile = new File(wordFileName);
@@ -54,19 +50,22 @@ public class Hangman {
 		return wordsDb.remove(randomIndex);
 	}
 
-	private void updateCurrentGuess(String charSequence) {
+	private boolean updateCurrentGuess(String charSequence) {
 		if (charSequence.length() == 1) {
 			int charIndex = currentWord.indexOf(charSequence);
 			if (charIndex > -1) {
 				if (currentGuess.length == 0)
 					setCurrentGuess(currentWord);
 				currentGuess[charIndex] = charSequence.charAt(0);
+				return true;
 			}
 
 		}
 		if (currentWord.equals(charSequence)) {
 			currentGuess = currentWord.toCharArray();
+			return true;
 		}
+		return false;
 	}
 
 	private void setCurrentGuess(String currentWord) {
@@ -144,8 +143,8 @@ public class Hangman {
 				System.out.println(p.getName() + " You have " + (GUESS_LIMIT - p.getAttempts() + " left."));
 				System.out.println("Enter a character or word");
 				String input = sc.next();
-				updateCurrentGuess(input);
-				p.incrementAttempts();
+				if(!updateCurrentGuess(input))
+					p.incrementAttempts();
 				if (currentGuess.length > 0) {
 					printCurrentGuess(currentGuess);
 				}
