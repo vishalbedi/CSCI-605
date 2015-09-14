@@ -1,5 +1,13 @@
 package csci.hw3.hangman;
 
+/**
+ * Game Class To initiate a game
+ * Calls the game method of hangman to initiate the game.
+ * 
+ * @author Vishal Bedi
+ * @author Daichi Mae
+ * 
+ */
 public class Game {
 
 	public static void main(String[] args) {
@@ -7,5 +15,4 @@ public class Game {
 		Hangman hm = new Hangman();
 		hm.game();
 	}
-
 }
