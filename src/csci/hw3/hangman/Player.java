@@ -2,7 +2,7 @@ package csci.hw3.hangman;
 
 
 
-/**
+/** 
  * PLayer class: Players for hangman
  * 
  * @author Vishal Bedi
