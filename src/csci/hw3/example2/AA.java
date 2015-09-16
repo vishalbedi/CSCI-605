@@ -23,14 +23,14 @@ public class AA extends A { //AA is child class of A
 		aInt = 11; //Sets aInt to 11 whenever an object of AA is created
 	}
 
-	public int intPlusPlus() {
-		return ++aInt;
-	}
+//	public int intPlusPlus() {
+//		return ++aInt;
+//	}
 	
-	/*
+	
 	public String toString() {
 		return this.getClass().getName() + ": " + aInt;  //Override toString to display class name with aInt value 
-	}*/
+	}
 
 	public static void main(String args[]) {
 		AA aAA = new AA(); //Create an object of AA
@@ -39,6 +39,6 @@ public class AA extends A { //AA is child class of A
 		aA.intPlusPlus(); //inc aInt of AA class
 		System.out.println(aA);
 		System.out.println(aAA);
-		System.out.println("aA: " + aAA.aInt); //member fields cannot be extended thus output will be 11
+		System.out.println("aA: " + aA.aInt); //member fields cannot be extended thus output will be 11
 	}
 }

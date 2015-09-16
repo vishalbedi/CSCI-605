@@ -1,8 +1,9 @@
 package csci.hw3.hangman;
 
-import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -19,8 +20,8 @@ public class Hangman {
 	private ArrayList<String> wordsDb = new ArrayList<String>();
 	private String currentWord;
 	private char[] currentGuess;
-	private final String DEFAULT_FILE = "C:\\Users\\Vishal\\Workplace\\CSCI-605\\src\\csci\\hw3\\words.txt";
-	private final int GUESS_LIMIT = 6;
+	private final String DEFAULT_FILE = "/words.txt";
+	private final int GUESS_LIMIT = 8;
 	private int gameCount = 0;
 	private boolean continueGame = true;
 	Scanner sc = new Scanner(System.in);
@@ -33,14 +34,14 @@ public class Hangman {
 	 * @return null
 	 */
 	private void populateWordsDb(String wordFileName) {
-		File wordFile = new File(wordFileName);
-		try (Scanner sc = new Scanner(wordFile)) {
+		try (Scanner sc = new Scanner(new FileReader(wordFileName))) {
 			while (sc.hasNext()) {
 				wordsDb.add(sc.next());
 			}
 		} catch (FileNotFoundException e) {
 			System.out.println("The File name you entered does not exists..");
 			System.out.println("Please Check the File name..");
+			return;
 			// e.printStackTrace();
 		}
 		System.out.println("###########-- Read successful --###########");
@@ -149,7 +150,9 @@ public class Hangman {
 			String fileName = sc.next();
 			populateWordsDb(fileName);
 		} else if (userInput == 'n') {
-			populateWordsDb(DEFAULT_FILE);
+			String currentDirectory = System.getProperty("user.dir");
+			System.out.println(currentDirectory + DEFAULT_FILE);
+			populateWordsDb(currentDirectory + DEFAULT_FILE);
 		} else {
 			System.out.flush();
 			System.out.println("Sorry I could't get that..");
@@ -166,7 +169,12 @@ public class Hangman {
 	 */
 	private void setUpPlayers() {
 		System.out.println("How many Player ?");
-		int playerCount = sc.nextInt();
+		int playerCount = 0;
+		try {
+			playerCount = sc.nextInt();			
+		}catch (InputMismatchException e){
+			System.out.println("Please enter Numerals...");
+		}
 		System.out.println("Enter Player Names...");
 		for (int i = 0; i < playerCount; i++) {
 			System.out.print("Player " + (i + 1) + " : ");

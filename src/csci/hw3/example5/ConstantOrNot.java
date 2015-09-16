@@ -1,7 +1,9 @@
 package csci.hw3.example5;
 
+
+
 import java.util.Vector; // what does this line do?
-//This line imports a Vector class
+//This line imports a Vector class from java.util package.
 
 class ConstantOrNot {
 

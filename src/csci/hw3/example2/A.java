@@ -1,5 +1,11 @@
 package csci.hw3.example2;
-
+/*
+ * You are allowed to add up to 6 characters to one of the 3 source files, so such the execution of AA produces the following output:
+ * % java AA
+ * AA: 11
+ * AA: 11
+ * aA: 13
+ */
 public class A {
 
 	int aInt = 1;
