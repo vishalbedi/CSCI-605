@@ -20,8 +20,25 @@ public class Connect4Field implements Connect4FieldInterface {
 	private String[] board;
 	private Player[] thePlayers = new Player[2];
 	private int currentPlayerIndex = 0;
-	private int lastMoveRow = 0;
-	private int lastMoveCol = 0;
+	private int lastMoveRow[] = new int[2];
+	private int lastMoveCol[] = new int[2] ;
+	private char[] gamePieceArray = new char[2];
+	
+	public int getLastMoveRow(int id){
+		return lastMoveRow[id];
+	}
+	
+	public char getGamePiece(int id){
+		return gamePieceArray[id];
+	}
+	
+	public int getLastMoveCol(int id){
+		return lastMoveCol[id];
+	}
+	
+	public char getEmptyState(){
+		return this.EMPTY_STATE;
+	}
 
 	public String[] getBoard() {
 		return board;
@@ -50,7 +67,8 @@ public class Connect4Field implements Connect4FieldInterface {
 	public void createBoard() {
 		System.out.println("Do you want to play with customized board ? (y/n)");
 		try {
-			if (sc.next().toLowerCase().charAt(0) == 'y') {
+			char input =  sc.next().toLowerCase().charAt(0);
+			if (input =='y') {
 				System.out.println("Enter Rows");
 				CONNECT4_FIELD_ROW = sc.nextInt();
 				System.out.println("Enter Cols");
@@ -59,6 +77,7 @@ public class Connect4Field implements Connect4FieldInterface {
 		} catch (InputMismatchException e) {
 			System.out.println("Something went wrong");
 			System.out.println("Lets Try again");
+			sc.next();
 			createBoard();
 		}
 		board = new String[CONNECT4_FIELD_ROW];
@@ -105,21 +124,26 @@ public class Connect4Field implements Connect4FieldInterface {
 	}
 
 	private void assignPlayers() {
-		System.out.println("1. VS Computer \n 2. Multiplayer \n Enter 1 or 2");
+		System.out.println("1. VS Multiplayer \n2. VS Computer   \nEnter 1 or 2");
 		try {
 			int userInput = sc.nextInt();
-			if (userInput == 1) {
-				setupPlayers(userInput);
-				// TODO : create a bot
+			if(userInput == 1){
+				setupPlayers(2);
 			}
-			if (userInput == 2) {
-				setupPlayers(userInput);
-			} else {
+			if(userInput == 2){
+				setupPlayers(1);
+				thePlayers[1] = new Player(this, "DragonSlayer", '*');
+				thePlayers[1].setId(1);
+				thePlayers[1].setType(2);
+				gamePieceArray[1] = '*';
+			}
+			else {
 				System.out.println("Sorry.. I did't get it. Please select one of the two options");
 				assignPlayers();
 			}
 		} catch (InputMismatchException e) {
 			System.err.println("Something went wrong. Try again");
+			sc.next();
 			assignPlayers();
 		}
 	}
@@ -133,7 +157,9 @@ public class Connect4Field implements Connect4FieldInterface {
 			System.out.print("Enter Symbol : ");
 			char symbol = sc.next().charAt(0);
 			thePlayers[i] = new Player(this, name, symbol);
+			thePlayers[i].setId(i);
 			thePlayers[i].setType(1);
+			gamePieceArray[i] = symbol;
 		}
 	}
 
@@ -146,8 +172,8 @@ public class Connect4Field implements Connect4FieldInterface {
 			return;
 		}
 		int rowNumber = getRow(column);
-		lastMoveRow = rowNumber;
-		lastMoveCol = column;
+		lastMoveRow[currentPlayerIndex] = rowNumber;
+		lastMoveCol[currentPlayerIndex] = column;
 		char[] row = board[rowNumber].toCharArray();
 		row[column] = gamePiece;
 		String newRow = String.valueOf(row);
@@ -169,8 +195,8 @@ public class Connect4Field implements Connect4FieldInterface {
 	@Override
 	public boolean didLastMoveWin() {
 		char gamePiece = thePlayers[currentPlayerIndex].getGamePiece();
-		int col = lastMoveCol;
-		int row = lastMoveRow;
+		int col = lastMoveCol[currentPlayerIndex];
+		int row = lastMoveRow[currentPlayerIndex];
 
 		return (checkConnect4(getHorizontal(row, col), gamePiece) || 
 				checkConnect4(getVertical(row, col), gamePiece) || 
@@ -192,7 +218,6 @@ public class Connect4Field implements Connect4FieldInterface {
 	@Override
 	public void playTheGame() {
 		int column;
-		System.out.println(this);
 		boolean gameIsOver = false;
 		assignPlayers();
 		do {
@@ -201,12 +226,15 @@ public class Connect4Field implements Connect4FieldInterface {
 				if (isItaDraw()) {
 					System.out.println("Draw");
 					gameIsOver = true;
+					break;
 				} else {
 					column = thePlayers[currentPlayerIndex].nextMove();
 					dropPieces(column, thePlayers[currentPlayerIndex].getGamePiece());
 					if (didLastMoveWin()) {
 						gameIsOver = true;
 						System.out.println("The winner is: " + thePlayers[currentPlayerIndex].getName());
+						System.out.println(this);
+						break;
 					}
 				}
 			}
@@ -215,15 +243,15 @@ public class Connect4Field implements Connect4FieldInterface {
 	}
 
 	private boolean checkConnect4(String str, char gamePiece) {
-		return str.matches(gamePiece + "{4}");
+		boolean iWon = str.indexOf(""+gamePiece + gamePiece + gamePiece + gamePiece) != -1;
+		return iWon;
 	}
 
-	private String getHorizontal(int row, int col) {
-		// forward check
+	public String getHorizontal(int row, int col) {
 		return board[row];
 	}
 
-	private String getVertical(int row, int col) {
+	public String getVertical(int row, int col) {
 		String vertical = "";
 		for (String s : board) {
 			vertical += s.charAt(col);
@@ -231,17 +259,11 @@ public class Connect4Field implements Connect4FieldInterface {
 		return vertical;
 	}
 
-	private String getDiagonal(int row, int col) {
+	public String getDiagonal(int row, int col) {
 		int tempRow = CONNECT4_FIELD_ROW - row -1;
-		int initialRow = 0;
-		int initialCol = 0;
-		if (tempRow >= col) {
-			initialRow = row + col;
-			initialCol = col - col;
-		} else {
-			initialRow = row + tempRow;
-			initialCol = col - tempRow;
-		}
+		int offset = tempRow >= col ? col : tempRow;
+		int initialRow = row + offset;
+		int initialCol = col - offset;
 		String diagonal = "";
 		String[] board = this.board;
 		for (int i = initialRow, j = initialCol; i >= 0; i--) {
@@ -251,26 +273,17 @@ public class Connect4Field implements Connect4FieldInterface {
 		return diagonal;
 	}
 
-	private String getAntiDiagonal(int row, int col) {
-		int tempRow =  row;
-		int tempCol =  col;
-		int initialRow = 0;
-		int initialCol = 0;
-		if (tempRow >= tempCol) {
-			initialRow = row - tempCol;
-			initialCol = col - tempCol;
-		} else {
-			initialRow = row - tempRow;
-			initialCol = col - tempRow;
-		}
+	public String getAntiDiagonal(int row, int col) {
+		int offset = row >= col ? col : row;
+		int initialRow = row - offset;
+		int initialCol = col - offset;
 		String antiDiagonal = "";
 		String[] board = this.board;
 		for (int i = initialRow, j = initialCol; i < CONNECT4_FIELD_ROW; i++) {
 					antiDiagonal += board[i].charAt(j);
 					j++;
 		}
-		return antiDiagonal;
-		
+		return antiDiagonal;		
 	}
 
 }
