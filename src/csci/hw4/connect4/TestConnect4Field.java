@@ -28,6 +28,8 @@ public class TestConnect4Field {
 	      }
 
 	public static void main(String[] args) {
-		new TestConnect4Field().testIt();
+//		new TestConnect4Field().testIt();
+		aConnect4Field.createBoard();
+		System.out.println(aConnect4Field.toString());
 	}
 }
