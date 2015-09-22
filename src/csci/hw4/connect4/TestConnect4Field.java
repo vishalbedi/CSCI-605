@@ -1,5 +1,6 @@
 package csci.hw4.connect4;
 
+import java.util.Scanner;
 
 public class TestConnect4Field {
 
@@ -27,9 +28,31 @@ public class TestConnect4Field {
 	              aConnect4Field.init(aPlayer, bPlayer);
 	      }
 
+	public void playMultiplayer(){
+		aConnect4Field.init(aPlayer, bPlayer);
+	}
+	public void playCpu(){
+		CpuPlayer cpu = new CpuPlayer(aConnect4Field, "CPU", '*');
+		aConnect4Field.init(aPlayer, cpu);
+	}
 	public static void main(String[] args) {
 //		new TestConnect4Field().testIt();
-		aConnect4Field.createBoard();
-		System.out.println(aConnect4Field.toString());
+//		aConnect4Field.createBoard();
+//		System.out.println(aConnect4Field.toString());
+
+		System.out.println("1. VS Multiplayer \n2. VS Computer   \nEnter 1 or 2");
+		try (Scanner sc = new Scanner(System.in)){
+			int userInput = sc.nextInt();
+			if(userInput == 1){
+				new TestConnect4Field().playMultiplayer();
+			}
+			if(userInput == 2){
+				new TestConnect4Field().playCpu();
+			}
+			else {
+				System.out.println("Sorry.. I did't get it. Please select one of the two options");
+			}
+		}
+		
 	}
 }

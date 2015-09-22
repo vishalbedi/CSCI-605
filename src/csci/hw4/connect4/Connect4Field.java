@@ -19,9 +19,11 @@ public class Connect4Field implements Connect4FieldInterface {
 	private final String EMPTY_STATE = "0";
 	private Scanner sc = new Scanner(System.in);
 	private String[][] board;
-	private PlayerInterface[] thePlayers = new Player[2];
+	private PlayerInterface[] thePlayers = new PlayerInterface[2];
 	
-	
+	public Connect4Field(){
+		createBoard();
+	}
 	public String getEmptyState(){
 		return this.EMPTY_STATE;
 	}
@@ -170,14 +172,16 @@ public class Connect4Field implements Connect4FieldInterface {
 
 	@Override
 	public boolean isItaDraw() {
-		return board.toString().indexOf(EMPTY_STATE) == -1;
+		return board.toString().indexOf("0") == -1;
 	}
 
 	@Override
 	public void init(PlayerInterface playerA, PlayerInterface playerB) {
 		int firstChance = new Random().nextInt(2);
-		thePlayers[firstChance] = playerA;
-		thePlayers[firstChance -1] = playerB;
+		thePlayers[0] = playerA;
+		thePlayers[1] = playerB;
+
+		playTheGame();
 	}
 
 	@Override
