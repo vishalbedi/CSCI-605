@@ -6,6 +6,7 @@ public class Player implements PlayerInterface{
 	Connect4FieldInterface field;
 	final String name ;
 	final char gamePiece;
+	Scanner sc = new Scanner(System.in);
 //	private final String EMPTY_STATE;
 
 	
@@ -37,9 +38,7 @@ public class Player implements PlayerInterface{
 	private int getUserMove(){
 		System.out.println("Enter column number.. ");
 		int lastMove = -1;
-		try (Scanner sc = new Scanner(System.in)) {
-			lastMove = sc.nextInt();
-		}
+		lastMove = sc.nextInt();
 		return lastMove;
 	}
 }

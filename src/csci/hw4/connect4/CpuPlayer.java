@@ -33,6 +33,7 @@ public class CpuPlayer implements PlayerInterface {
 
 	@Override
 	public int nextMove() {
+		board = getBoard();
 		checkIfWin();
 		return nextMove;
 	}
@@ -47,7 +48,7 @@ public class CpuPlayer implements PlayerInterface {
 		// rows
 		for (int i = 0; i < CONNECT4_FIELD_ROW; i++) {
 			for (int j = 0; j < CONNECT4_FIELD_COL; j++) {
-				if (!p(i, j).equals("!") && p(i, j).equals(p(i, j + 1)) && p(i, j).equals(p(i, j + 2))) {
+				if (!p(i, j).equals(" ")  && !p(i,j).equals("0") && p(i, j).equals(p(i, j + 1)) && p(i, j).equals(p(i, j + 2))) {
 					if(p(i,j-1).equals("0") && !p(i+1,j-1).equals("0")){
 						nConnect = 3;
 						nextMove = j-1;
@@ -58,7 +59,7 @@ public class CpuPlayer implements PlayerInterface {
 					}					
 				}
 				
-				if (!p(i, j).equals("!") && p(i, j).equals(p(i, j + 1)) && nConnect < 3) {
+				if (!p(i, j).equals(" ") && !p(i,j).equals("0") && p(i, j).equals(p(i, j + 1)) && nConnect < 3) {
 					if(p(i,j-1).equals("0") && !p(i+1,j-1).equals("0")){
 						nConnect = 2;
 						nextMove = j-1;
@@ -73,14 +74,14 @@ public class CpuPlayer implements PlayerInterface {
 		// Cols
 		for (int i = 0; i < CONNECT4_FIELD_ROW; i++) {
 			for (int j = 0; j < CONNECT4_FIELD_COL; j++) {
-				if (!p(i, j).equals("!") && p(i, j).equals(p(i + 1, j)) && p(i, j).equals(p(i + 2, j))) {
-					if(p(i-1,j).equals(".")){
+				if (!p(i, j).equals(" ") && !p(i,j).equals("0") && p(i, j).equals(p(i + 1, j)) && p(i, j).equals(p(i + 2, j))) {
+					if(p(i-1,j).equals("0")){
 						nConnect = 3;
 						nextMove = j;
 					}
 				}
-				if (!p(i, j).equals("!") && p(i, j).equals(p(i + 1, j)) && nConnect < 3) {
-					if(p(i-1,j).equals(".")){
+				if (!p(i, j).equals(" ") && p(i, j).equals(p(i + 1, j)) && nConnect < 3) {
+					if(p(i-1,j).equals("0")){
 						nConnect = 2;
 						nextMove = j;
 					}
@@ -92,23 +93,23 @@ public class CpuPlayer implements PlayerInterface {
 		for (int i = 0; i < CONNECT4_FIELD_ROW; i++) {
 			for (int j = 0; j < CONNECT4_FIELD_COL; j++) {
 				for (int d = -1; d <= 1; d += 2) {
-					if (!p(i, j).equals("!") && p(i, j).equals(p(i + 1 * d, j + 1)) && p(i, j).equals(p(i + 2 * d, j + 2))) {
-						if(p(i - 1 * d, j -1).equals(".") && !p(i - 2 * d, j -1).equals(".")){
+					if (!p(i, j).equals(" ") && !p(i,j).equals("0") && p(i, j).equals(p(i + 1 * d, j + 1)) && p(i, j).equals(p(i + 2 * d, j + 2))) {
+						if(p(i - 1 * d, j -1).equals("0") && !p(i - 2 * d, j -1).equals("0")){
 							nConnect = 3;
 							nextMove = j-1;
 						}
-						if(p(i + 3 * d, j + 3).equals(".") && !p(i + 2* d,j + 3).equals(".")){
+						if(p(i + 3 * d, j + 3).equals("0") && !p(i + 2* d,j + 3).equals("0")){
 							nConnect = 3;
 							nextMove = j+3;
 						}	
 					}
 					
-					if (!p(i, j).equals("!") && p(i, j).equals(p(i + 1 * d, j + 1)) && nConnect < 3 ) {
-						if(p(i - 1 * d, j -1).equals(".") && !p(i - 2 * d, j -1).equals(".")){
+					if (!p(i, j).equals(" ") && !p(i,j).equals("0") && p(i, j).equals(p(i + 1 * d, j + 1)) && nConnect < 3 ) {
+						if(p(i - 1 * d, j -1).equals("0") && !p(i - 2 * d, j -1).equals("0")){
 							nConnect = 2;
 							nextMove = j-1;
 						}
-						if(p(i + 2 * d, j + 2).equals(".") && !p(i + 1* d,j + 2).equals(".")){
+						if(p(i + 2 * d, j + 2).equals("0") && !p(i + 1* d,j + 2).equals("0")){
 							nConnect = 2;
 							nextMove = j+2;
 						}	
@@ -125,6 +126,6 @@ public class CpuPlayer implements PlayerInterface {
 	private String p(int row, int col){
 		return (row < 0 || col < 0 || 
 				row >= CONNECT4_FIELD_ROW ||
-				col >= CONNECT4_FIELD_COL) ? "!" : ""+board[row].charAt(col);
+				col >= CONNECT4_FIELD_COL) ? " " : ""+board[row].charAt(col);
 	}
 }

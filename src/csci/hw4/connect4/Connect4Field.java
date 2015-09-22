@@ -89,10 +89,10 @@ public class Connect4Field implements Connect4FieldInterface {
 		String brd = "";
 		char newLine = '\n';
 		char space = ' ';
-		for (String[] col : board) {
-			for (int i = 0; i < col.length; i++) {
-				if (col[i].equals(EMPTY_STATE))
-					brd += col[i];
+		for (String[] rows : board) {
+			for (int i = 0; i < rows.length; i++) {
+				if (!rows[i].equals(UNDEFINED_STATE))
+					brd += rows[i];
 				else
 					brd += space;
 			}
@@ -104,7 +104,7 @@ public class Connect4Field implements Connect4FieldInterface {
 	@Override
 	public boolean checkIfPiecedCanBeDroppedIn(int column) {
 		for (String[] str : board) {
-			if (str[column].equals(EMPTY_STATE)) {
+			if (column >= 0 && column < CONNECT4_FIELD_COL &&  str[column].equals(EMPTY_STATE)) {
 				return true;
 			}
 		}
@@ -140,7 +140,7 @@ public class Connect4Field implements Connect4FieldInterface {
 		//rows
 		for(int i =0; i< CONNECT4_FIELD_ROW; i++){ 
 			for(int j = 0; j < CONNECT4_FIELD_COL; j++){
-				if(!p(i,j).equals("!") && p(i,j).equals(p(i,j+1)) && 
+				if(!p(i,j).equals("!") && !p(i,j).equals(EMPTY_STATE) && p(i,j).equals(p(i,j+1)) && 
 						p(i,j).equals(p(i,j+2)) && p(i,j).equals(p(i,j+3))){
 					return true;
 				}
@@ -149,7 +149,7 @@ public class Connect4Field implements Connect4FieldInterface {
 		//Cols
 		for(int i =0; i< CONNECT4_FIELD_ROW; i++){ 
 			for(int j = 0; j < CONNECT4_FIELD_COL; j++){
-				if(!p(i,j).equals("!") && p(i,j).equals(p(i+1,j)) && 
+				if(!p(i,j).equals("!") && !p(i,j).equals(EMPTY_STATE)&& p(i,j).equals(p(i+1,j)) && 
 						p(i,j).equals(p(i+2,j)) && p(i,j).equals(p(i+3,j))){
 					return true;
 				}
@@ -160,7 +160,7 @@ public class Connect4Field implements Connect4FieldInterface {
 		for(int i =0; i< CONNECT4_FIELD_ROW; i++){ 
 			for(int j = 0; j < CONNECT4_FIELD_COL; j++){
 				for (int d =-1;d<=1;d+=2){
-					if(!p(i,j).equals("!") && p(i,j).equals(p(i+1*d,j+1)) && 
+					if(!p(i,j).equals("!") && !p(i,j).equals(EMPTY_STATE)&& p(i,j).equals(p(i+1*d,j+1)) && 
 							p(i,j).equals(p(i+2*d,j+2)) && p(i,j).equals(p(i+3*d,j+3))){
 						return true;
 					}
@@ -172,7 +172,7 @@ public class Connect4Field implements Connect4FieldInterface {
 
 	@Override
 	public boolean isItaDraw() {
-		return board.toString().indexOf("0") == -1;
+		return this.toString().indexOf("0") == -1;
 	}
 
 	@Override

@@ -4,7 +4,7 @@
 package csci.hw4.connect4;
 
 /**
- * @author Vishal
+ * @author Vishal, Diachi
  *
  */
 public interface PlayerInterface {
