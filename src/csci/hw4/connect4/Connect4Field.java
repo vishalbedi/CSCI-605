@@ -5,11 +5,16 @@ package csci.hw4.connect4;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
 /**
- * @author Vishal
- *
+ * Connect4Field class
+ * Backbone of connect4 game.
+ * Initializes the players and starts the game
+ * 
+ * @author Vishal Bedi
+ * @author Daichi Mae
+ * 
  */
+
 public class Connect4Field implements Connect4FieldInterface {
 
 	private int CONNECT4_FIELD_ROW = 9;
@@ -24,6 +29,19 @@ public class Connect4Field implements Connect4FieldInterface {
 	private int lastMoveCol[] = new int[2] ;
 	private char[] gamePieceArray = new char[2];
 	
+	/**
+	 * @description : initializes the board
+	 */
+	public Connect4Field(){
+		board = new String[CONNECT4_FIELD_ROW];
+		board = fillCols(board);
+	}
+	
+	/**
+	 * @description Gets the last move of player
+	 * @param int id 
+	 * @return int lastMove
+	 */
 	public int getLastMoveRow(int id){
 		return lastMoveRow[id];
 	}
@@ -84,6 +102,10 @@ public class Connect4Field implements Connect4FieldInterface {
 		board = fillCols(board);
 	}
 
+	/**
+	 * @description Fill the cols of the board to empty state
+	 * 
+	 */
 	public String[] fillCols(String[] _board) {
 		String nullState = "";
 		for (int i = 0; i < CONNECT4_FIELD_ROW; i++) {
@@ -97,6 +119,11 @@ public class Connect4Field implements Connect4FieldInterface {
 		return _board;
 	}
 
+	/**
+	 * @description return the board instead of object address
+	 * 
+	 */
+	@Override
 	public String toString() {
 		String brd = "";
 		char newLine = '\n';
@@ -113,16 +140,23 @@ public class Connect4Field implements Connect4FieldInterface {
 		return brd;
 	}
 
+	/**
+	 * @description check if the piece can be dropped in the col
+	 * @param int col
+	 */
 	@Override
 	public boolean checkIfPiecedCanBeDroppedIn(int column) {
 		for (String str : board) {
-			if (str.charAt(column) == EMPTY_STATE) {
+			if (column >= 0 && column < CONNECT4_FIELD_COL && str.charAt(column) == EMPTY_STATE) {
 				return true;
 			}
 		}
 		return false;
 	}
 
+	/**
+	 * @description creates player objects to play the game
+	 */
 	private void assignPlayers() {
 		System.out.println("1. VS Multiplayer \n2. VS Computer   \nEnter 1 or 2");
 		try {
@@ -147,7 +181,9 @@ public class Connect4Field implements Connect4FieldInterface {
 			assignPlayers();
 		}
 	}
-
+	/**
+	 * @description sets the players to pay the game
+	 */
 	private void setupPlayers(int playerCount) {
 		for (int i = 0; i < playerCount; i++) {
 			System.out.println("Enter Player Name.");
@@ -163,6 +199,11 @@ public class Connect4Field implements Connect4FieldInterface {
 		}
 	}
 
+	/**
+	 * @description drops the game piece in the col
+	 * @param int column 
+	 * @param char gamePiece
+	 */
 	@Override
 	public void dropPieces(int column, char gamePiece) {
 		// TODO Auto-generated method stub
@@ -191,17 +232,56 @@ public class Connect4Field implements Connect4FieldInterface {
 		}
 		return rowNumber;
 	}
-
+	
+	/**
+	 * @description Check if any player won
+	 */
+	
 	@Override
 	public boolean didLastMoveWin() {
-		char gamePiece = thePlayers[currentPlayerIndex].getGamePiece();
-		int col = lastMoveCol[currentPlayerIndex];
-		int row = lastMoveRow[currentPlayerIndex];
-
-		return (checkConnect4(getHorizontal(row, col), gamePiece) || 
-				checkConnect4(getVertical(row, col), gamePiece) || 
-				checkConnect4(getDiagonal(row, col), gamePiece) || 
-				checkConnect4(getAntiDiagonal(row, col), gamePiece));
+		//rows
+		for(int i =0; i< CONNECT4_FIELD_ROW; i++){ 
+			for(int j = 0; j < CONNECT4_FIELD_COL; j++){
+				if(!p(i,j).equals("!") && !p(i,j).equals(".") && p(i,j).equals(p(i,j+1)) && 
+						p(i,j).equals(p(i,j+2)) && p(i,j).equals(p(i,j+3))){
+					return true;
+				}
+			}
+		}
+		
+		//Cols
+		for(int i =0; i< CONNECT4_FIELD_ROW; i++){ 
+			for(int j = 0; j < CONNECT4_FIELD_COL; j++){
+				if(!p(i,j).equals("!") && !p(i,j).equals(".") && p(i,j).equals(p(i+1,j)) && 
+						p(i,j).equals(p(i+2,j)) && p(i,j).equals(p(i+3,j))){
+					return true;
+				}
+			}
+		}
+		
+		//diagonal
+		for(int i =0; i< CONNECT4_FIELD_ROW; i++){ 
+			for(int j = 0; j < CONNECT4_FIELD_COL; j++){
+				for (int d =-1;d<=1;d+=2){
+					if(!p(i,j).equals("!") && !p(i,j).equals(".") && p(i,j).equals(p(i+1*d,j+1)) && 
+							p(i,j).equals(p(i+2*d,j+2)) && p(i,j).equals(p(i+3*d,j+3))){
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	/**
+	 * @description Boundary check for board returns character at the given row and col
+	 * @param row
+	 * @param col
+	 * @return char 
+	 */
+	private String p(int row, int col){
+		return (row < 0 || col < 0 || 
+				row >= CONNECT4_FIELD_ROW ||
+				col >= CONNECT4_FIELD_COL) ? "!" : ""+board[row].charAt(col);
 	}
 
 	@Override
@@ -215,6 +295,9 @@ public class Connect4Field implements Connect4FieldInterface {
 
 	}
 
+	/**
+	 * @description game loop
+	 */
 	@Override
 	public void playTheGame() {
 		int column;
@@ -241,16 +324,18 @@ public class Connect4Field implements Connect4FieldInterface {
 		} while (!gameIsOver);
 
 	}
-
-	private boolean checkConnect4(String str, char gamePiece) {
-		boolean iWon = str.indexOf(""+gamePiece + gamePiece + gamePiece + gamePiece) != -1;
-		return iWon;
-	}
-
+	
+	/**
+	 * @description returns horizontal row of the placed character
+	 */
 	public String getHorizontal(int row, int col) {
 		return board[row];
 	}
+	
 
+	/**
+	 * @description returns vertical row of the placed character
+	 */
 	public String getVertical(int row, int col) {
 		String vertical = "";
 		for (String s : board) {
@@ -259,6 +344,9 @@ public class Connect4Field implements Connect4FieldInterface {
 		return vertical;
 	}
 
+	/**
+	 * @description returns diagonal row of the placed character
+	 */
 	public String getDiagonal(int row, int col) {
 		int tempRow = CONNECT4_FIELD_ROW - row -1;
 		int offset = tempRow >= col ? col : tempRow;
@@ -273,6 +361,9 @@ public class Connect4Field implements Connect4FieldInterface {
 		return diagonal;
 	}
 
+	/**
+	 * @description returns antiDiagonal row of the placed character
+	 */
 	public String getAntiDiagonal(int row, int col) {
 		int offset = row >= col ? col : row;
 		int initialRow = row - offset;
@@ -285,7 +376,6 @@ public class Connect4Field implements Connect4FieldInterface {
 		}
 		return antiDiagonal;		
 	}
-
 }
 
 /*

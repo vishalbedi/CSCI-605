@@ -1,7 +1,15 @@
 package csci.hw4.connect4;
 
 import java.util.InputMismatchException;
-
+/**
+ * PLayer class
+ * 
+ * Class for playing connect4 game
+ * 
+ * @author Vishal Bedi
+ * @author Daichi Mae
+ * 
+ */
 public class Player implements PlayerInterface{
 	private final int HUMAN_TYPE = 1;
 	private final int BOT_TYPE = 2;
@@ -40,7 +48,9 @@ public class Player implements PlayerInterface{
 	public String getName() {
 		return name;
 	}
-
+	/**
+	 * @description Get the move to play the game
+	 */
 	@Override
 	public int nextMove() {
 		if(type == HUMAN_TYPE){
@@ -50,7 +60,9 @@ public class Player implements PlayerInterface{
 		}
 		return 0;
 	}
-	
+	/**
+	 * @description Get the move of user 
+	 */
 	private int getUserMove(){
 		System.out.println("Enter column number.. ");
 		int lastMove = -1;
@@ -63,7 +75,9 @@ public class Player implements PlayerInterface{
 		}
 		return lastMove;
 	}
-	
+	/**
+	 * @description Get the move of CPU
+	 */
 	private int getBotMove(){
 		if(field.toString().indexOf(gamePiece) == -1){
 			int min = (field.getMinPlayableCols(field.getRows()));
@@ -114,18 +128,18 @@ public class Player implements PlayerInterface{
 	
 	private void checkHorizontal (String horizontal, int id){
 		int localComparator = 0;
-		int index = 1;
-		while(index < horizontal.length()-1){
+		int index = 0;
+		while(index < horizontal.length()){
 			if(horizontal.charAt(index) == field.getGamePiece(id)){
 				localComparator++;
-				if(horizontal.charAt(index + 1) == field.getEmptyState()){
+				if(index <horizontal.length()-1 && horizontal.charAt(index + 1) == field.getEmptyState()){
 					if(localComparator > nInLine){
 						nextCol = index + 1;
 						nInLine = localComparator;
 						localComparator = 0;
 					}
 				}
-				if(horizontal.charAt(index-1) == field.getEmptyState()){
+				if(index > 0 && horizontal.charAt(index-1) == field.getEmptyState()){
 					preEmpty = true;
 					preCol = index - 1;
 				}
@@ -133,11 +147,17 @@ public class Player implements PlayerInterface{
 			if(horizontal.charAt(index) == field.getGamePiece(1-id)){
 				if(localComparator > nInLine && preEmpty){
 					nInLine = localComparator;
+					preEmpty = false;
 					nextCol = preCol;
 				}
 				localComparator = 0;
 			}
 			index++;
+		}
+		if(localComparator > nInLine && preEmpty){
+			nInLine = localComparator;
+			preEmpty = false;
+			nextCol = preCol;
 		}
 	}
 	
@@ -145,10 +165,10 @@ public class Player implements PlayerInterface{
 		int localComparator = 0;
 		int col = field.getLastMoveCol(id);
 		int index = vertical.length()-1;
-		while(index > 1){
+		while(index >= 0){
 			if(vertical.charAt(index) == field.getGamePiece(id)){
 				localComparator++;
-				if(vertical.charAt(index - 1) == field.getEmptyState()){
+				if(index < vertical.length()-2 && vertical.charAt(index - 1) == field.getEmptyState()){
 					if(localComparator > nInLine){
 						nextCol = col;
 						nInLine = localComparator;
@@ -168,22 +188,22 @@ public class Player implements PlayerInterface{
 		int localComparator = 0;
 		int col = field.getLastMoveCol(id);
 		int row = field.getLastMoveRow(id);
-		int index = 1;
+		int index = 0;
 		int tempRow = field.getRows() - row -1;
 		int offset = tempRow >= col ? col : tempRow;
 		int initialCol = col - offset;
 		localComparator = 0;
-		while(index < diagonal.length()-1){
+		while(index < diagonal.length()){
 			if(diagonal.charAt(index) == field.getGamePiece(id)){
 				localComparator++;
-				if(diagonal.charAt(index + 1) == field.getEmptyState()){
+				if(index < diagonal.length()-1 && diagonal.charAt(index + 1) == field.getEmptyState()){
 					if(localComparator > nInLine){
 						nextCol = initialCol + index + 1;
 						nInLine = localComparator;
 						localComparator = 0;
 					}
 				}
-				if(diagonal.charAt(index-1) == field.getEmptyState()){
+				if(index > 0 && diagonal.charAt(index-1) == field.getEmptyState()){
 					preEmpty = true;
 					preCol = initialCol + index - 1;
 				}
@@ -191,11 +211,17 @@ public class Player implements PlayerInterface{
 			if(diagonal.charAt(index) == field.getGamePiece(1-id)){
 				if(localComparator > nInLine && preEmpty){
 					nInLine = localComparator;
+					preEmpty = false;
 					nextCol = preCol;
 				}
 				localComparator = 0;
 			}
 			index++;
+		}
+		if(localComparator > nInLine && preEmpty){
+			nInLine = localComparator;
+			preEmpty = false;
+			nextCol = preCol;
 		}
 	}
 	
@@ -203,32 +229,38 @@ public class Player implements PlayerInterface{
 		int localComparator = 0;
 		int col = field.getLastMoveCol(id);
 		int row = field.getLastMoveRow(id);
-		int index = 1;
+		int index = 0;
 		int offset = row >= col ? col : row;
 		int initialCol = col - offset;
-		while(index < antiDiagonal.length()-1){
+		while(index < antiDiagonal.length()){
 			if(antiDiagonal.charAt(index) == field.getGamePiece(id)){
 				localComparator++;
-				if(antiDiagonal.charAt(index + 1) == field.getEmptyState()){
+				if( index < antiDiagonal.length()-1 && antiDiagonal.charAt(index + 1) == field.getEmptyState()){
 					if(localComparator > nInLine){
 						nextCol = initialCol + index + 1;
 						nInLine = localComparator;
 						localComparator = 0;
 					}
 				}
-				if(antiDiagonal.charAt(index-1) == field.getEmptyState()){
+				if(index > 0 &&  antiDiagonal.charAt(index-1) == field.getEmptyState()){
 					preEmpty = true;
 					preCol = initialCol + index - 1;
 				}
 			}
 			if(antiDiagonal.charAt(index) == field.getGamePiece(1-id)){
 				if(localComparator > nInLine && preEmpty){
+					preEmpty = false;
 					nInLine = localComparator;
 					nextCol = preCol;
 				}
 				localComparator = 0;
 			}
 			index++;
+		}
+		if(localComparator > nInLine && preEmpty){
+			nInLine = localComparator;
+			preEmpty = false;
+			nextCol = preCol;
 		}
 	}
 }
