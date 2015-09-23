@@ -97,6 +97,7 @@ public class Connect4Field implements Connect4FieldInterface {
 			System.out.println("Lets Try again");
 			sc.next();
 			createBoard();
+			e.getStackTrace();
 		}
 		board = new String[CONNECT4_FIELD_ROW];
 		board = fillCols(board);
@@ -163,6 +164,7 @@ public class Connect4Field implements Connect4FieldInterface {
 			int userInput = sc.nextInt();
 			if(userInput == 1){
 				setupPlayers(2);
+				return;
 			}
 			if(userInput == 2){
 				setupPlayers(1);
