@@ -23,7 +23,7 @@ public class StringStackOld implements StackInterfaceOld {
 	 * If we cast the object of Object class into string this error will go away at compile time
 	 * if the inserted element was not a string it will result in an cast exception at run time.
 	 */
-	String aString = aStackInterfaceOld.pop();
+	String aString = (String)aStackInterfaceOld.pop();
  }
 /*
 javac StringStackOld.java			// explain this error
