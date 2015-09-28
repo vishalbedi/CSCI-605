@@ -1,5 +1,13 @@
 package csci.hw5.example2;
 
+/**
+ * Another storage
+ * 
+ * @author Vishal Bedi
+ * @author Daichi Mae
+ * 
+ */
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -60,7 +68,7 @@ public class FastCompetition<E extends Comparable<E>> implements Competition<E>,
 		Node<E> prev = null;
 		Node<E> cur = head;
 		while (cur != null) {
-			if (cur.equals(o)) {
+			if (cur.data.equals(o)) {
 				prev.next = cur.next;
 				size--;
 				return true;

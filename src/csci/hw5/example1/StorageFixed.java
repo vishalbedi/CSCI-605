@@ -1,10 +1,5 @@
-package csci.hw5.example1;
-
-import java.lang.reflect.Array;
-
 /*
  * Implement a class using generics for each of the requirements:
- �
  * the maximum elements stored is between 0 and 100. You have to use a 
  * data structure which capacity is fixed after creation. 
  * It is important that adding a item to the storage is 0(1). 
@@ -22,6 +17,16 @@ import java.lang.reflect.Array;
  * You can not use any compiler flags.
  */
 
+package csci.hw5.example1;
+
+/**
+ * Linked list with some basic operations, which can store 100 items.
+ * 
+ * @author Vishal Bedi
+ * @author Daichi Mae
+ * 
+ */
+
 public class StorageFixed <E,V> implements Storage<E,V>{
 	
 	Class<E> ec;
@@ -37,9 +42,10 @@ public class StorageFixed <E,V> implements Storage<E,V>{
 		
 	}
 	
-	private StorageFixed(E[] e, V[] v) {
+	private StorageFixed(E[] e, V[] v, int size) {
 		storageArrayMain = e;
 		storageArrayBackUp = v;
+		this.size = size;
 	}
 	
 	@Override
@@ -90,8 +96,9 @@ public class StorageFixed <E,V> implements Storage<E,V>{
 	@SuppressWarnings("unchecked")
 	@Override
 	public void clear() {
-		  storageArrayMain = (E[])Array.newInstance(ec, capacity);  
-		  storageArrayBackUp = (V[])Array.newInstance(vc, capacity);
+		  storageArrayMain = (E[])new Object[capacity];
+		  storageArrayBackUp = (V[])new Object[capacity];
+		  size = 0;
 	}
 
 	@Override
@@ -111,7 +118,7 @@ public class StorageFixed <E,V> implements Storage<E,V>{
 
 	@Override
 	public Object clone(){
-		return new StorageFixed<E, V>(storageArrayMain, storageArrayBackUp);
+		return new StorageFixed<E, V>(storageArrayMain, storageArrayBackUp, size);
 	}
 	
 	public String toString() {

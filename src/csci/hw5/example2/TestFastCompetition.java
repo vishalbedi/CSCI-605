@@ -1,5 +1,13 @@
 package csci.hw5.example2;
 
+/**
+ * Test program for FastCompetition.
+ * 
+ * @author Vishal Bedi
+ * @author Daichi Mae
+ * 
+ */
+
 public class TestFastCompetition	{
 
 	FastCompetition<String> aStringStorage;
@@ -60,7 +68,7 @@ public class TestFastCompetition	{
 
 		addTest();
 		containTest();
-		//sortTest();
+		sortTest();
 		removeTest();
 
 		long endTime = System.currentTimeMillis();
@@ -72,10 +80,5 @@ public class TestFastCompetition	{
 		TestFastCompetition aTestFastCompetition = new TestFastCompetition();
 		FastCompetition<String> aFastCompetition = new FastCompetition<String>();
 		aTestFastCompetition.stressTest(aFastCompetition);
-//		aFastCompetition.add("c");
-//		aFastCompetition.add("a");
-//		aFastCompetition.add("b");
-//		aFastCompetition = (FastCompetition<String>) aFastCompetition.sort();
-		
 	}
 }
