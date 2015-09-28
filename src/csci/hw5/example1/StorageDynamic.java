@@ -34,16 +34,20 @@ public class StorageDynamic<E, V> implements Storage<E, V>, Iterable<E> {
 	}
 
 	// Inserts the specified element at the specified position in this Storage.
-	// retursn true, if the element could be added at position index, else false
+	// returns true, if the element could be added at position index, else false
 	public boolean add(int index, E element) {
-		Node<E> temp = head;
-		for (int i = 0; i < index; i++)
-			temp = temp.next;
-		if (temp == null) {
+		Node<E> cur = head;
+		Node<E> prev = null;
+		for (int i = 0; i < index; i++){
+			prev = cur;
+			cur = cur.next;
+	
+		}
+		if (cur == null) {
 			return false;
 		}
-		temp = new Node<E>(element, temp);
-		return false;
+		prev.next = new Node<E>(element, cur);
+		return true;
 	}
 
 	// Adds the specified component to the end of this storage, increasing its

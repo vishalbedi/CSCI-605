@@ -18,7 +18,7 @@ public class StorageTest {
 		aStorageInteger.add(5);
 		
 		
-		
+		aStorageInteger.add(2, 12);
 		System.out.println(aStorageInteger);
 	}
 }
