@@ -32,7 +32,6 @@ public class StorageFixed <E,V> implements Storage<E,V>{
 	@SuppressWarnings( "unchecked" )
 	private  V[] storageArrayBackUp = (V[])new Object[capacity];
 	private int size = 0;
-	private int lastIndex = size;
 	
 	public StorageFixed(){
 		
@@ -103,7 +102,7 @@ public class StorageFixed <E,V> implements Storage<E,V>{
 
 	@Override
 	public E lastElement() {
-		return storageArrayMain[lastIndex-1];
+		return storageArrayMain[size-1];
 	}
 
 	@Override
