@@ -28,11 +28,15 @@ public class StorageFixed <E,V> implements Storage<E,V>{
 	Class<V> vc;
 	private int capacity = 100;
 	@SuppressWarnings( "unchecked" )
-	private  E[] storageArrayMain = (E[])Array.newInstance(ec, capacity);
+	private  E[] storageArrayMain = (E[])new Object[capacity];
 	@SuppressWarnings( "unchecked" )
-	private  V[] storageArrayBackUp = (V[])Array.newInstance(vc, capacity);
+	private  V[] storageArrayBackUp = (V[])new Object[capacity];
 	private int size = 0;
 	private int lastIndex = size;
+	
+	public StorageFixed(){
+		
+	}
 	
 	private StorageFixed(E[] e, V[] v) {
 		storageArrayMain = e;
@@ -45,7 +49,6 @@ public class StorageFixed <E,V> implements Storage<E,V>{
 			storageArrayMain[size] = e;
 			storageArrayBackUp[size] = null;
 			size++;
-			setLastIndex(size);
 			return true;
 		}
 		return false;
@@ -53,11 +56,10 @@ public class StorageFixed <E,V> implements Storage<E,V>{
 
 	@Override
 	public boolean add(int index, E element) {
-		if(index < capacity){
+		if(index < size){
 			size = storageArrayMain[index] == null ? size++ : size;
 			storageArrayMain[index] = element;
 			storageArrayBackUp[index] = null;
-			setLastIndex(index);
 			return true;
 		}
 		return false;		
@@ -74,7 +76,6 @@ public class StorageFixed <E,V> implements Storage<E,V>{
 			storageArrayMain[size] = obj;
 			storageArrayBackUp[size] = elem;
 			size++;
-			setLastIndex(size);
 		}
 	}
 
@@ -110,8 +111,11 @@ public class StorageFixed <E,V> implements Storage<E,V>{
 		return new StorageFixed<E, V>(storageArrayMain, storageArrayBackUp);
 	}
 	
-	private void setLastIndex(int index){
-		lastIndex = lastIndex >= index ? lastIndex : index;
+	public String toString() {
+		StringBuffer result = new StringBuffer();
+		for (int x = 0; x < size; x++){
+			result.append(storageArrayMain[x] + " ");
+		}
+		return result.toString();
 	}
-
 }
