@@ -4,7 +4,7 @@ import java.lang.reflect.Array;
 
 /*
  * Implement a class using generics for each of the requirements:
- •
+ ï¿½
  * the maximum elements stored is between 0 and 100. You have to use a 
  * data structure which capacity is fixed after creation. 
  * It is important that adding a item to the storage is 0(1). 
@@ -26,7 +26,7 @@ public class StorageFixed <E,V> implements Storage<E,V>{
 	
 	Class<E> ec;
 	Class<V> vc;
-	private int capacity = 100;
+	private final int capacity = 100;
 	@SuppressWarnings( "unchecked" )
 	private  E[] storageArrayMain = (E[])new Object[capacity];
 	@SuppressWarnings( "unchecked" )
@@ -55,10 +55,14 @@ public class StorageFixed <E,V> implements Storage<E,V>{
 
 	@Override
 	public boolean add(int index, E element) {
-		if(index < size){
-			size = storageArrayMain[index] == null ? size++ : size;
+		if((size < capacity) && (index <= size)){
+			for(int i = size; i >= index; i--) {
+				storageArrayMain[i+1] = storageArrayMain[i];
+				storageArrayBackUp[i+1] = storageArrayBackUp[i];
+			}
 			storageArrayMain[index] = element;
 			storageArrayBackUp[index] = null;
+			size++;
 			return true;
 		}
 		return false;		
