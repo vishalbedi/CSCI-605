@@ -1,5 +1,12 @@
 package csci.hw5.example1;
 
+/**
+ * 
+ * @author Vishal Bedi
+ * @author Daichi Mae
+ * 
+ */
+
 //this implementation implements the methods,
 //but the methods are null methods;
 public class StringStackOld implements StackInterfaceOld {
@@ -23,7 +30,7 @@ public class StringStackOld implements StackInterfaceOld {
 	 * If we cast the object of Object class into string this error will go away at compile time
 	 * if the inserted element was not a string it will result in an cast exception at run time.
 	 */
-	String aString = (String)aStackInterfaceOld.pop();
+	String aString = aStackInterfaceOld.pop();
  }
 /*
 javac StringStackOld.java			// explain this error

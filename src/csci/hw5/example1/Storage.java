@@ -1,5 +1,12 @@
 package csci.hw5.example1;
 
+/**
+ * Storage interface
+ * 
+ * @author Vishal Bedi
+ * @author Daichi Mae
+ * 
+ */
 
 public interface Storage<E, V> {
 	// Appends the specified element to the end of this storage.

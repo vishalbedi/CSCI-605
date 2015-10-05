@@ -7,9 +7,13 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * @author Vishal
- *
+ * Linked list with some basic operations.
+ * 
+ * @author Vishal Bedi
+ * @author Daichi Mae
+ * 
  */
+
 public class StorageDynamic<E, V> implements Storage<E, V>, Iterable<E> {
 
 	Node<E> head = null;
@@ -39,12 +43,18 @@ public class StorageDynamic<E, V> implements Storage<E, V>, Iterable<E> {
 		Node<E> cur = head;
 		Node<E> prev = null;
 		for (int i = 0; i < index; i++){
+			if(cur.next == null){
+				return false;
+			}
 			prev = cur;
 			cur = cur.next;
-	
 		}
 		if (cur == null) {
 			return false;
+		}
+		if(prev == null){
+			head = new Node<E>(element, cur);
+			return true;
 		}
 		prev.next = new Node<E>(element, cur);
 		return true;
@@ -84,8 +94,8 @@ public class StorageDynamic<E, V> implements Storage<E, V>, Iterable<E> {
 		StorageDynamic<E, V> dupe = new StorageDynamic<>();
 		Node<E> temp = head;
 		while (temp != null) {
-			temp = temp.next;
 			dupe.add(temp.obj);
+			temp = temp.next;
 		}
 		return dupe;
 	}
@@ -101,11 +111,13 @@ public class StorageDynamic<E, V> implements Storage<E, V>, Iterable<E> {
 	// Returns the element at the specified position in this storage.
 	public E get(int index) {
 		Node<E> temp = head;
-		for (int i = 0; i < index; i++)
+		for (int i = 0; i < index; i++){
 			temp = temp.next;
-		if (temp == null) {
-			throw new IndexOutOfBoundsException();
+			if (temp == null) {
+				throw new IndexOutOfBoundsException();
+			}
 		}
+		
 		return temp.obj;
 	}
 
