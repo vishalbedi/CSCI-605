@@ -8,6 +8,6 @@ public class MainClass {
 		CalculatorController ctr = new CalculatorController(model, view);
 		view.bindController(ctr);
 		view.bindModel(model);
-		view.init();
+		ctr.init();
 	}
 }
