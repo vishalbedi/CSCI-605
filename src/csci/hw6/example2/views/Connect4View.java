@@ -64,4 +64,16 @@ public class Connect4View {
 		}
 		return -1;
 	}
+	
+	public void drawBoard(){
+		System.out.println(model);
+	}
+	
+	public void displayDraw(){
+		System.out.println("Draw");
+	}
+	
+	public void displayWinner(String name){
+		System.out.println("The winner is: " + name);
+	}
 }

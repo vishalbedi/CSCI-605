@@ -29,9 +29,9 @@ public class Connect4Controller {
 		boolean gameIsOver = false;
 		do {
 			for (int i  = 0; i< 2; i++) {
-				System.out.println(model);
+				view.drawBoard();
 				if (model.isItaDraw()) {
-					System.out.println("Draw");
+					view.displayDraw();
 					gameIsOver = true;
 					break;
 				} else {					
@@ -43,8 +43,8 @@ public class Connect4Controller {
 					model.dropPieces(column, model.getPlayers()[i].getGamePiece());
 					if (model.didLastMoveWin()) {
 						gameIsOver = true;
-						System.out.println("The winner is: " + model.getPlayers()[i].getName());
-						System.out.println(model);
+						view.displayWinner(model.getPlayers()[i].getName());
+						view.drawBoard();
 						break;
 					}
 				}
