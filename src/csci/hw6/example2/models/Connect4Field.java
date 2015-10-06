@@ -1,8 +1,11 @@
 package csci.hw6.example2.models;
 
 /**
- * @author Vishal, Daichi Mae
- *
+ * Field Model Class.
+ * 
+ * @author Vishal Bedi
+ * @author Daichi Mae
+ * 
  */
 public class Connect4Field implements Connect4FieldInterface {
 
@@ -50,7 +53,8 @@ public class Connect4Field implements Connect4FieldInterface {
 		}
 		return _board;
 	}
-
+	
+	@Override
 	public String toString() {
 		String brd = "";
 		char newLine = '\n';
@@ -147,31 +151,14 @@ public class Connect4Field implements Connect4FieldInterface {
 		thePlayers[1] = playerB;
 	}
 
-	@Override
-	public void playTheGame() {
-		int column;
-		boolean gameIsOver = false;
-		do {
-			for (int i  = 0; i< 2; i++) {
-				System.out.println(this);
-				if (isItaDraw()) {
-					System.out.println("Draw");
-					gameIsOver = true;
-					break;
-				} else {
-					column = thePlayers[i].nextMove();
-					dropPieces(column, thePlayers[i].getGamePiece());
-					if (didLastMoveWin()) {
-						gameIsOver = true;
-						System.out.println("The winner is: " + thePlayers[i].getName());
-						System.out.println(this);
-						break;
-					}
-				}
-			}
-		} while (!gameIsOver);
-	}
-	
+	/**
+	 * @description Returns element at row and col or 
+	 * null state if it goes outside the array index 
+	 * 
+	 * @param row
+	 * @param col
+	 * @return element : element at the row and col
+	 */
 	private String p(int row, int col){
 		return (row < 0 || col < 0 || 
 				row >= CONNECT4_FIELD_ROW ||

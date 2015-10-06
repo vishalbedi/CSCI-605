@@ -20,5 +20,4 @@ public interface Connect4FieldInterface {
 
 	public String toString();
 
-	public void playTheGame();
 }

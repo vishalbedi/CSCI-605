@@ -11,19 +11,27 @@ public class Connect4Controller {
 		this.model = m;
 		this.view = v;
 	}
-	
+	/**
+	 * @description Initializes the game for multiplayer play
+	 */
 	public void initMultiplayer(){
 		Player aPlayer = new Player(model, "A", '+');
 		Player bPlayer = new Player(model, "B", '*');
 		model.init(aPlayer, bPlayer);
 	}
-	
+	/**
+	 * @description Initializes the game for play with cpu
+	 */
 	public void initVsCpu(){
 		Player aPlayer = new Player(model, "A", '+');
 		CpuPlayer cup = new CpuPlayer(model, "CPU", '*');
 		model.init(aPlayer, cup);
 	}
 	
+	
+	/**
+	 * @description Game logic
+	 */
 	public void playGame (){
 		int column;
 		boolean gameIsOver = false;
