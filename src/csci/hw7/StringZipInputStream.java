@@ -2,7 +2,13 @@ package csci.hw7;
 
 import java.io.IOException;
 import java.io.InputStream;
-
+/**
+ * 
+ * @author Vishal, Daichi
+ * 
+ * Class to Decompresses a text file that contains ASCII characters
+ *
+ */
 public class StringZipInputStream {
 
 	private int buffer;
@@ -15,6 +21,13 @@ public class StringZipInputStream {
 	private final int maxCode = (int) Math.pow(2, writeBits);
 	private String[] dict = new String[maxCode];
 
+	// Creates a new input stream with a default buffer size.
+	public StringZipInputStream(InputStream in) {
+		this.in = in;
+		buildInitialDict();
+		fillBuffer();
+	}
+	
 	private void buildInitialDict() {
 		int i = 0;
 		for (i = 0; i < EOF; i++)
@@ -22,14 +35,7 @@ public class StringZipInputStream {
 		dict[i++] = "";
 		code = EOF + 1;
 	}
-
-	// Creates a new input stream with a default buffer size.
-	public StringZipInputStream(InputStream in) {
-		this.in = in;
-		buildInitialDict();
-		fillBuffer();
-	}
-
+	
 	// Reads data into a string. the method will block until some input can be
 	// read; otherwise, no bytes are read and null is returned.
 	public String read() {

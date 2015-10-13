@@ -2,7 +2,13 @@ package csci.hw7;
 
 import java.io.IOException;
 import java.io.OutputStream;
-
+/**
+ * 
+ * @author Vishal, Daichi
+ * 
+ * Class to compress a text file that contains ASCII characters
+ *
+ */
 public class StringZipOutputStream {
 
 	private int buffer;
@@ -13,19 +19,23 @@ public class StringZipOutputStream {
 	private final int writeBits = 16;
 	private int code;
 	private final int maxCode = (int) Math.pow(2, writeBits);
-	TST<Integer> dict = new TST<Integer>();
-
-	private void buildInitialDict() {
-		for (int i = 0; i < EOF; i++) {
-			dict.insert("" + (char) i, i);
-		}
-		code = EOF + 1;
-	}
+	private TST<Integer> dict = new TST<Integer>(); //Tertiary Search Tree
 
 	// Creates a new output stream with a default buffer size.
 	public StringZipOutputStream(OutputStream out) {
 		this.out = out;
 		buildInitialDict();
+	}
+	
+	/**
+	 * @description : Build dictionary to start compression
+	 * 
+	 */
+	private void buildInitialDict() {
+		for (int i = 0; i < EOF; i++) {
+			dict.insert("" + (char) i, i);
+		}
+		code = EOF + 1;
 	}
 
 	// Writes aStrign compressed output stream. This method will block until all

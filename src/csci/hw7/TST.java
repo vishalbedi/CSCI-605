@@ -1,5 +1,11 @@
 package csci.hw7;
-
+/**
+ * 
+ * @author Vishal, Daichi
+ * 
+ * Tertiary Search tree
+ *
+ */
 public class TST<T> {
 	int size = 0;
 	TSTNode<T> root;
