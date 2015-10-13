@@ -42,7 +42,7 @@ public class StringZipInputStream {
 			if (code == codeword)
 				s = decodedString + decodedString.charAt(0); // special case
 																// hack
-			if (code < maxCode && decodedString.indexOf('\n') == -1)
+			if (code < maxCode && decodedString.indexOf('\n') == -1) //hack to counter readline of compression
 				dict[code++] = decodedString + s.charAt(0);
 		}
 		decodedString = s;
