@@ -4,6 +4,8 @@
 
 package csci.hw8.example1;
 
+import java.text.ParseException;
+
 /**
  * 
  * @author Vishal Bedi
@@ -52,8 +54,16 @@ public class SieveOfEratosthenes {
     }
 
     public static void main( String[] args ) {
-    	SieveOfEratosthenes aSieveOfEratosthenes = new SieveOfEratosthenes(2000);
-    	aSieveOfEratosthenes.initThreadPool(4);
+    	SieveOfEratosthenes aSieveOfEratosthenes = new SieveOfEratosthenes(20);
+    	int maxThreads = 4;
+    	try {
+    		if(args.length > 0)
+    			maxThreads = Integer.parseInt(args[0]);
+    	}catch(NumberFormatException e){
+    		System.out.println("Please enter correct optional argumant");
+    		System.out.println("For example. " + aSieveOfEratosthenes.getClass().getName() + " 5");
+    	}
+    	aSieveOfEratosthenes.initThreadPool(maxThreads);	
     	aSieveOfEratosthenes.determinePrimeNumbers();
     	aSieveOfEratosthenes.testForPrimeNumber();
     	System.exit(0);
