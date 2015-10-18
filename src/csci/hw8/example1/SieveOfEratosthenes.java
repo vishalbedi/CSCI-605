@@ -18,10 +18,14 @@ public class SieveOfEratosthenes {
     final static int FIRSTpRIMEuSED = 2;
     static int MAX;
     final boolean[] numbers;
-
+    private ThreadPool pool;
     public SieveOfEratosthenes(int max) {
     	numbers = new boolean[max];
     	MAX = max;
+    }
+    
+    private void initThreadPool (int threadCount){
+    	pool = new ThreadPool(threadCount);
     }
     
     public void determinePrimeNumbers()	{
@@ -33,7 +37,7 @@ public class SieveOfEratosthenes {
 	
     	for (int index = 2; index < limit; index ++ ) {						  // this is the part for the parallel part
     		if ( numbers[index] ) {											  // this is the part for the parallel part
-    			new Thread(new CompositeFinder(numbers, MAX, index)).start(); // this is the part for the parallel part
+    			pool.enqueue(new CompositeFinder(numbers, MAX, index)); // this is the part for the parallel part
     		}
     	}
     }
@@ -48,7 +52,8 @@ public class SieveOfEratosthenes {
     }
 
     public static void main( String[] args ) {
-    	SieveOfEratosthenes aSieveOfEratosthenes = new SieveOfEratosthenes(20);
+    	SieveOfEratosthenes aSieveOfEratosthenes = new SieveOfEratosthenes(2000);
+    	aSieveOfEratosthenes.initThreadPool(4);
     	aSieveOfEratosthenes.determinePrimeNumbers();
     	aSieveOfEratosthenes.testForPrimeNumber();
     	System.exit(0);
