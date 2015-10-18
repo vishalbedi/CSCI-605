@@ -1,7 +1,17 @@
+/*
+ * PixelDrawer.java
+ */
+
 package csci.hw8.example2;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * A runnable implementation to draw pixels concurrently.
+ * 
+ * @author Vishal Bedi
+ * @author Daichi Mae
+ */
 public class PixelDrawer implements Runnable {
 	private final int MAX;
 	private final int LENGTH;
@@ -12,6 +22,18 @@ public class PixelDrawer implements Runnable {
 	private final int[] colors;
 	private final int threadNumber;
 	
+	/**
+	 * A constructor that takes variables to draw pixels.
+	 * 
+	 * @param max
+	 * @param length
+	 * @param height
+	 * @param width
+	 * @param zoom
+	 * @param theImage
+	 * @param colors
+	 * @param threadNumber
+	 */
 	public PixelDrawer(int max, int length, int height, int width,
 			double zoom, BufferedImage theImage, int[] colors, int threadNumber) {
 		this.MAX = max;
@@ -24,12 +46,18 @@ public class PixelDrawer implements Runnable {
 		this.threadNumber = threadNumber;
 	}
 	
+	/**
+	 * Draw a segment of the Mandelbrot set. 
+	 */
 	public void run(){
 		double zx, zy, cX, cY;
-		int offset = threadNumber;
-		int step = Runtime.getRuntime().availableProcessors();
-		for (int y = offset; y < HEIGHT; y = y + step ) {
-			for (int x = offset; x < WIDTH; x = x + step) {
+		int step = threadNumber;
+		int segmentHeight = HEIGHT / Runtime.getRuntime().availableProcessors();
+		int upperBound = segmentHeight * step;
+		int lowerBound = upperBound + segmentHeight;
+		
+		for (int y = upperBound; y < lowerBound; y++ ) {
+			for (int x = 0; x < WIDTH; x++) {
 				zx = zy = 0;
 				cX = (x - LENGTH) / ZOOM;
 				cY = (y - LENGTH) / ZOOM;

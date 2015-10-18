@@ -1,8 +1,13 @@
+/*
+ * CompositeFinder.java
+ */
+
 package csci.hw8.example1;
 
 /**
  * 
- * @author Vishal Bedi, Daichi Mae
+ * @author Vishal Bedi
+ * @author Daichi Mae
  * 
  * Find composite numbers
  *

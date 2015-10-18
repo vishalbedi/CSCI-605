@@ -1,6 +1,8 @@
-package csci.hw8.example2;
+/*
+ * Mandelbrot.java
+ */
 
-//original from: http://rosettacode.org/wiki/Mandelbrot_set#Java
+package csci.hw8.example2;
 //modified for color
 
 import java.awt.Color;
@@ -9,8 +11,18 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
-public class Mandelbrot extends JFrame {
 
+/**
+ * A class to draw the Mandelbrot set. The canvas is divided horizontally
+ * into segments and each segment is drawn concurrently. The number of
+ * segments is equal to the number of processors/cores.
+ * original from: http://rosettacode.org/wiki/Mandelbrot_set#Java
+ * 
+ * @author Vishal Bedi
+ * @author Daichi Mae
+ *
+ */
+public class Mandelbrot extends JFrame {
 	private final int MAX 	= 5000;
 	private final int LENGTH   	= 800;
 	private final double ZOOM  	= 1000;
@@ -19,7 +31,6 @@ public class Mandelbrot extends JFrame {
 
 	public Mandelbrot() {
 		super("Mandelbrot Set");
-	
 		initColors();
 		setBounds(100, 100, LENGTH, LENGTH);
 		setResizable(false);
@@ -31,12 +42,12 @@ public class Mandelbrot extends JFrame {
 		int processors = Runtime.getRuntime().availableProcessors(); // the number of processors/cores
 		Thread[] pixelThreads = new Thread[processors];
 
-		// Create threads as many as the number of the processors/cores
+		// Create threads as many as processors/cores
 		for(int i = 0; i < pixelThreads.length; i++ ) {
 			pixelThreads[i] = new Thread(new PixelDrawer(MAX, LENGTH, getHeight(), 
 					getWidth(), ZOOM, theImage, colors, i));
 			pixelThreads[i].start();
-			System.out.println("Thread " + i + " started");
+			// System.out.println("Thread " + i + " started");
 		}
 		
 		// Let all threads finish drawing pixels
@@ -46,9 +57,8 @@ public class Mandelbrot extends JFrame {
 		        } catch (InterruptedException e) {
 		            e.printStackTrace();
 		        }
-				System.out.println("Thread " + i + " finished");
+				// System.out.println("Thread " + i + " finished");
 		}
-		System.out.println("repaint()");
 		repaint();
 	}
 	

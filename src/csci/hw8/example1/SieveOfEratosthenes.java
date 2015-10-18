@@ -1,8 +1,13 @@
+/*
+ * SieveOfEratosthenes.java
+ */
+
 package csci.hw8.example1;
 
 /**
  * 
- * @author Vishal Bedi, Daichi Mae
+ * @author Vishal Bedi
+ * @author Daichi Mae
  * 
  * A parallel version of the sieve of Eratosthenes 
  *
