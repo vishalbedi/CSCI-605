@@ -4,6 +4,8 @@
 
 package csci.hw8.example1;
 
+import java.text.ParseException;
+
 /**
  * 
  * @author Vishal Bedi
@@ -18,10 +20,14 @@ public class SieveOfEratosthenes {
     final static int FIRSTpRIMEuSED = 2;
     static int MAX;
     final boolean[] numbers;
-
+    private ThreadPool pool;
     public SieveOfEratosthenes(int max) {
     	numbers = new boolean[max];
     	MAX = max;
+    }
+    
+    private void initThreadPool (int threadCount){
+    	pool = new ThreadPool(threadCount);
     }
     
     public void determinePrimeNumbers()	{
@@ -33,7 +39,7 @@ public class SieveOfEratosthenes {
 	
     	for (int index = 2; index < limit; index ++ ) {						  // this is the part for the parallel part
     		if ( numbers[index] ) {											  // this is the part for the parallel part
-    			new Thread(new CompositeFinder(numbers, MAX, index)).start(); // this is the part for the parallel part
+    			pool.enqueue(new CompositeFinder(numbers, MAX, index)); // this is the part for the parallel part
     		}
     	}
     }
@@ -49,6 +55,15 @@ public class SieveOfEratosthenes {
 
     public static void main( String[] args ) {
     	SieveOfEratosthenes aSieveOfEratosthenes = new SieveOfEratosthenes(20);
+    	int maxThreads = 4;
+    	try {
+    		if(args.length > 0)
+    			maxThreads = Integer.parseInt(args[0]);
+    	}catch(NumberFormatException e){
+    		System.out.println("Please enter correct optional argumant");
+    		System.out.println("For example. " + aSieveOfEratosthenes.getClass().getName() + " 5");
+    	}
+    	aSieveOfEratosthenes.initThreadPool(maxThreads);	
     	aSieveOfEratosthenes.determinePrimeNumbers();
     	aSieveOfEratosthenes.testForPrimeNumber();
     	System.exit(0);
