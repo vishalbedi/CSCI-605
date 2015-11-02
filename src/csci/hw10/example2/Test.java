@@ -19,7 +19,7 @@ public class Test implements Runnable {
 		lock = new Semaphore(maxTrucks, maxWeight);
 		Random rand = new Random();
 		for (int i = 0; i < totalTrucks; i++){
-			new Thread (new Test(new Truck(rand.nextInt(1000000), i))).start();;
+			new Thread (new Test(new Truck(rand.nextInt(1000000), i, i%2 == 0 ? Direction.RIGHT : Direction.LEFT))).start();;
 		}
 	}
 
