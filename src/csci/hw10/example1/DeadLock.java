@@ -13,7 +13,7 @@ public class DeadLock extends Thread {
 		synchronized (lock) {
 			lock.notify();
 			System.out.println(id);
-			synchronized (lockAgain) {
+			synchronized (lockAgain) {//This will lead to deadlock
 				try {
 					lock.wait();
 				} catch (InterruptedException e) {
