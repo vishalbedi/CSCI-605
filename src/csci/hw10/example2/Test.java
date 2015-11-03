@@ -14,6 +14,7 @@ public class Test implements Runnable {
 		System.out.println("How many trucks ???");
 		Scanner sc = new Scanner(System.in);
 		int totalTrucks = sc.nextInt();
+		sc.close();
 		int maxWeight = 200000;
 		int maxTrucks = 4;
 		lock = new Semaphore(maxTrucks, maxWeight);
