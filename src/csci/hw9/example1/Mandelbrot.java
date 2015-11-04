@@ -11,7 +11,6 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
-import csci.hw8.example1.ThreadPool;
 
 /**
  * A class to draw the Mandelbrot set. The canvas is divided horizontally into
